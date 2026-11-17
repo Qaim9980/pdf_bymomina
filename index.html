@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>J&B Expedite Logistics LLC - Service Agreement & Forms</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Top App Navigation & Controls Header (Hidden in Print) -->
+  <header class="app-header no-print">
+    <div class="brand-wrapper">
+      <button id="btnToggleSidebar" class="btn btn-dark" title="Toggle Navigation Sidebar">☰ Menu</button>
+      <span class="brand-badge">J&amp;B</span>
+      <div>
+        <div class="brand-title">J&amp;B Expedite Logistics LLC</div>
+        <div class="brand-sub">Non-Binding Service Agreement &amp; Authorizations</div>
+      </div>
+    </div>
+
+    <div class="nav-controls">
+      <!-- Edit Mode Toggle -->
+      <button id="btnToggleEditAll" class="btn btn-dark" title="Click to edit ANY text, heading, or paragraph directly on the page">
+        <span>✏️</span> Edit All Text Mode
+      </button>
+
+      <!-- Zoom Controls -->
+      <div style="display: flex; align-items: center; background: #2b313a; border-radius: 6px; padding: 2px 6px;">
+        <button id="btnZoomOut" class="btn btn-dark" style="padding: 4px 8px;" title="Zoom Out">−</button>
+        <span id="zoomDisplay" style="font-size: 0.78rem; font-weight: 700; min-width: 42px; text-align: center; color: #f5b301;">100%</span>
+        <button id="btnZoomIn" class="btn btn-dark" style="padding: 4px 8px;" title="Zoom In">+</button>
+        <button id="btnZoomReset" class="btn btn-dark" style="padding: 4px 6px; font-size: 0.7rem;" title="Reset Zoom">Fit</button>
+      </div>
+
+      <!-- Print / PDF -->
+      <button id="btnPrintDoc" class="btn btn-primary" title="Print document or save cleanly as PDF">
+        <span>🖨️</span> Print / Save PDF
+      </button>
+
+      <!-- Save Data -->
+      <button id="btnSaveData" class="btn btn-success" title="Save all changes to browser memory">
+        <span>💾</span> Save
+      </button>
+
+      <!-- Export / Import / Reset -->
+      <button id="btnExportHTML" class="btn btn-outline" title="Download standalone HTML file with your edits">
+        <span>📥</span> HTML
+      </button>
+      <button id="btnExportJSON" class="btn btn-outline" title="Export form data as JSON file">
+        <span>{ }</span> JSON
+      </button>
+      <button id="btnResetDoc" class="btn btn-outline" title="Reset all fields to sample agreement defaults">
+        <span>🔄</span> Reset
+      </button>
+    </div>
+  </header>
+
+  <div class="app-container">
+    <!-- Sidebar / Outline & Auto-Sync Controls (Hidden in Print) -->
+    <aside class="sidebar no-print">
+      <div class="sidebar-title">
+        <span>Document Index</span>
+        <span style="font-size: 0.7rem; color: #9ca3af;">7 Pages</span>
+      </div>
+
+      <ul class="page-nav-list">
+        <li><a href="#page1" class="page-nav-item active"><span class="badge">1</span> Welcome &amp; Cover</a></li>
+        <li><a href="#page2" class="page-nav-item"><span class="badge">2</span> Recitals &amp; Work (1-5)</a></li>
+        <li><a href="#page3" class="page-nav-item"><span class="badge">3</span> Provisions (6-8)</a></li>
+        <li><a href="#page4" class="page-nav-item"><span class="badge">4</span> Signatures (Sec 9)</a></li>
+        <li><a href="#page5" class="page-nav-item"><span class="badge">5</span> Power of Attorney</a></li>
+        <li><a href="#page6" class="page-nav-item"><span class="badge">6</span> Card Authorization</a></li>
+        <li><a href="#page7" class="page-nav-item"><span class="badge">7</span> Bank Transfer Auth</a></li>
+      </ul>
+
+      <!-- Quick Sync Tools -->
+      <div class="sync-box">
+        <h4>⚡ Quick Field Sync</h4>
+        <p>Updating these automatically updates all 7 pages:</p>
+
+        <div class="sync-input-group">
+          <label for="sync_carrier_name">Carrier / Company Name:</label>
+          <input type="text" id="sync_carrier_name" value="COUNTRY MILE CARRIERS LLC" placeholder="e.g. Acme Trucking LLC">
+        </div>
+
+        <div class="sync-input-group">
+          <label for="sync_signer_name">Authorized Signer Name:</label>
+          <input type="text" id="sync_signer_name" value="Harold Williams" placeholder="Full Name">
+        </div>
+
+        <div class="sync-input-group">
+          <label for="sync_signer_date">Agreement Date:</label>
+          <input type="text" id="sync_signer_date" value="30/Sep/2025" placeholder="DD/Mon/YYYY">
+        </div>
+      </div>
+
+      <div style="font-size: 0.72rem; color: #6b7280; line-height: 1.4; padding: 0.5rem;">
+        💡 <b>Tip:</b> Click <b>"Edit All Text Mode"</b> at the top to click and edit ANY paragraph, clause, or title in the document!
+      </div>
+    </aside>
+
+    <!-- Main Multi-Page Document Viewport -->
+    <main class="document-viewport">
+
+      <!-- ================= PAGE 1: COVER & WELCOME ================= -->
+      <article class="doc-page" id="page1">
+        <!-- Logo -->
+        <div class="logo-container">
+          <img src="logo.svg" alt="J&amp;B Expedite Logistics" class="logo-svg" style="width: 250px; height: auto;">
+        </div>
+
+        <!-- Document Title -->
+        <h1 class="doc-title editable-text" style="margin-top: 1.8rem; margin-bottom: 2.5rem;">
+          Carrier Dispatch Non-Binding Service Agreement
+        </h1>
+
+        <!-- Welcome Text Body -->
+        <div class="doc-welcome-text" style="display: flex; flex-direction: column; gap: 1.7rem; font-size: 11pt; line-height: 1.6; text-align: left; max-width: 6.8in; margin: 0 auto;">
+          <p class="editable-text">
+            Welcome to J&amp;B Expedite Logistics LLC! We are pleased that you have decided to give us the chance to act as your dispatch service consultant for freight options, covering your truck(s) and/or delivering the administrative functions.
+          </p>
+
+          <p class="editable-text">
+            To set up with our system, please complete, sign and return the agreement by email to <a href="mailto:JnBexpedite@gmail.com" style="color: #e6a800; text-decoration: underline; font-weight: 600;">JnBexpedite@gmail.com</a>.
+          </p>
+
+          <p class="editable-text">
+            Once your paperwork is verified and processed, we will contact you promptly with all pertinent information and your Customer ID.
+          </p>
+
+          <p class="editable-text">
+            For questions/concerns regarding J&amp;B Expedite Logistics LLC services please contact us at:
+          </p>
+
+          <p class="editable-text" style="text-align: center; margin: 0.8rem 0;">
+            <a href="mailto:Jnbexpedite@gmail.com" style="color: #e6a800; font-weight: 700; text-decoration: none; font-size: 11.5pt;">Jnbexpedite@gmail.com</a>
+          </p>
+
+          <p class="editable-text" style="text-align: center; margin-top: 2rem; font-weight: 600;">
+            Thank you for choosing J&amp;B Expedite Logistics LLC
+          </p>
+        </div>
+
+        <footer class="page-footer-meta">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 1 of 7</span>
+        </footer>
+      </article>
+
+      <!-- ================= PAGE 2: SECTIONS 1 - 5 ================= -->
+      <article class="doc-page" id="page2">
+        <h2 class="section-banner editable-text">Non-Binding AGREEMENT FOR J&amp;B EXPEDITE LOGISTICS LLC</h2>
+
+        <!-- 1. Recitals -->
+        <h3 class="section-heading editable-text">1. Recitals</h3>
+        <p class="legal-paragraph editable-text">
+          This agreement made as of this
+          <input type="text" class="input-inline" data-sync="agreement_day" value="30th" style="width: 55px; text-align: center;">
+          of
+          <input type="text" class="input-inline" data-sync="agreement_month_year" value="Sep, 2025" style="width: 120px; text-align: center;">
+          by and between J&amp;B Expedite Logistics LLC and
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 250px; font-weight: 700;"> .
+        </p>
+        <p class="legal-paragraph editable-text">
+          Hereinafter referred to as &lsquo;Service Recipient&rsquo;, desires to retain J&amp;B Expedite Logistics LLC by executing a Limited Power of Attorney form to find and secure freight for Service Recipient and their equipment. Prior to the implementation of this agreement, Service Recipient must furnish to J&amp;B Expedite Logistics LLC the following documents:
+        </p>
+
+        <ol class="legal-list">
+          <li class="editable-text">This Agreement completed, dated and signed</li>
+          <li class="editable-text">A signed Limited Power of Attorney form.</li>
+          <li class="editable-text">Copy of Service Recipient's MC Authority.</li>
+          <li class="editable-text">A signed and dated W-9 Form.</li>
+          <li class="editable-text">Proof of Insurance Certificates.</li>
+          <li class="editable-text">Payment Authorization forms.</li>
+          <li class="editable-text">Notice of Assignment in case of Factoring or Voided Cheque.</li>
+        </ol>
+
+        <!-- 2. Pricing -->
+        <h3 class="section-heading editable-text">2. Pricing</h3>
+        <div style="margin: 0.3rem 0 0.8rem 0;">
+          <input type="text" class="input-underline-block" data-sync="pricing_rate" value="10% of weekly gross, Made by J&B Expedite" style="font-weight: 600;">
+        </div>
+
+        <!-- 3. Effective Date -->
+        <h3 class="section-heading editable-text">3. Effective Date</h3>
+        <p class="legal-paragraph editable-text">
+          The Agreement shall be in effect upon the date signed by both parties and shall be in effect until the revocation of the Limited Power of Attorney or until notice is given by J&amp;B Expedite Logistics LLC. Service Recipient must send notification by emailing said Revocation Notice to: J&amp;B Expedite Logistics LLC at <a href="mailto:jnbexpedite@gmail.com" style="color: #e6a800;">jnbexpedite@gmail.com</a>
+        </p>
+
+        <!-- 4. Statement of the Work -->
+        <h3 class="section-heading editable-text">4. Statement of the Work</h3>
+        <p class="legal-paragraph editable-text">J&amp;B Expedite Logistics LLC will:</p>
+        <ol class="legal-list">
+          <li class="editable-text">Find freight options that best matches profile for the Service Recipient.</li>
+          <li class="editable-text">Contact Service Recipient with freight options matches and go over options.</li>
+          <li class="editable-text">Provide to shipper/broker the Service Recipient&rsquo;s MC Authority, W-9, proof of insurance, and order insurance certificates, if required, along withany other required supporting documentation upon the Service Recipient agreeing to take a load.</li>
+          <li class="editable-text">Handle the setting of appointments if necessary.</li>
+          <li class="editable-text">Provide the driver with all dispatch instructions for pickup, transit and delivery along with assistance with tracking softwares.</li>
+          <li class="editable-text">Assist with any problems that arise in the transit of the load when necessary if within our capabilities. The Service Recipient is responsible for own equipment. We can try to direct Service Recipient to a service that might be of help.</li>
+          <li class="editable-text">Hold on to the dispatch, accessorial information, etc. until the load is completed.</li>
+          <li class="editable-text">Forward the final freight options booking confirmation and mail all documentation to the Service Recipient, once freight is been delivered.</li>
+          <li class="editable-text">Service Recipient will receive assistance on payment documentation to brokers and factoring institutes upon a submission of formal request.</li>
+        </ol>
+
+        <!-- 5. Consideration -->
+        <h3 class="section-heading editable-text">5. Consideration</h3>
+        <p class="legal-paragraph editable-text">
+          The Service Recipient agrees to pay J&amp;B Expedite Logistics LLC as per the agreed quotes and terms, as stated in Section 2 of this agreement. This agreed term rates will be required to be paid to J&amp;B Expedite Logistics LLC as per the conditions of the Agreement on every Monday of the proceeding the week in which freight options were provided and accepted. J&amp;B Expedite Logistics LLC will invoice Service Recipient as per the terms of the agreement via Email. Payments can be made, to J&amp;B Expedite Logistics LLC, by Credit Card, ACH payments, and/or bank transfer. It will be charged directly by J&amp;B Expedite Logistics LLC on the Service Recipient&rsquo;s credit card or bank depending upon the terms of the agreement.
+        </p>
+
+        <footer class="page-footer-meta">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 2 of 7</span>
+        </footer>
+      </article>
+
+      <!-- ================= PAGE 3: SECTIONS 6 - 8 ================= -->
+      <article class="doc-page" id="page3">
+        <!-- 6. Additional Provisions -->
+        <h3 class="section-heading editable-text" style="margin-top: 0;">6. Additional Provisions</h3>
+        
+        <p class="legal-paragraph editable-text">
+          Once Freight options booking has concluded it will be the responsibility of the Service Recipient to handle directly with the shipping party any overages, shortages, damages, or billing and collections issues. In no event will J&amp;B Expedite Logistics LLC be liable for any incidental, consequential, or indirect damages for the loss of profits, or business interruption arising out of the use of the service.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          Service Recipient agrees to hold harmless, before, during and after the contract, all direct or indirect damages resulting from Service Recipient hauling ofshipper's freight. This includes, but is not limited to loading and unloading problems or issues, delays, overages, shortages, damages, and billing and collection issues as well as hours of services.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          Service Recipient will be responsible for notifying J&amp;B Expedite Logistics LLC of changesto authority, insurance, Service Recipient profile or ownership.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          J&amp;B Expedite Logistics LLC will work within the established parameters of the Service Recipients Company/Carrier Profile.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          J&amp;B Expedite Logistics LLC will notify Service Recipient of best-matched loads for approval prior to making haul commitment until otherwise permitted in which case liability will be on Service Recipient.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          J&amp;B Expedite Logistics LLC will email/fax all necessary documentation to the broker/shipper directly, along with final approval once Service Recipient or designated representative has approved load.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          J&amp;B Expedite Logistics LLC will notify Service Recipient of load required qualifications or additional insurance necessary.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          J&amp;B Expedite Logistics LLC will furnish to Service Recipient necessary information for qualification of insurance required.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          In the event that J&amp;B Expedite Logistics LLC books a load with the Service Recipient&rsquo;sapproval and/or matching the Service Recipient's truck posting, the Service Recipient agrees to pay J&amp;B Expedite Logistics LLC as agreed in Section 2 of this Agreement for services rendered.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          Service Recipient agrees that if a higher line haul rate is needed for the shipment they will notify J&amp;B Expedite Logistics LLC BEFORE the load is secured. Once the Service Recipient tells J&amp;B Expedite Logistics LLC they will accept the shipment at a specific rate, this is verbal acceptance and the load is secured.
+        </p>
+
+        <p class="legal-paragraph editable-text">
+          Service Recipient agrees that they will advise J&amp;B Expedite Logistics LLC in a timely fashion should the Service Recipient not be available for dispatch more than one (1) day at a time. (If Service Recipient is not working for any amount of time, please let us know ASAP so that we do not plan any loads for Service Recipient&rsquo;s truck.)
+        </p>
+
+        <!-- 7. Disclaimer -->
+        <h3 class="section-heading editable-text">7. Disclaimer</h3>
+        <p class="legal-paragraph editable-text">J&amp;B Expedite Logistics LLC is NOT responsible for:</p>
+        <ol class="legal-list">
+          <li class="editable-text">Load Cancellation.</li>
+          <li class="editable-text">Advances. (All advances will be sorted directly between Service Recipient and shipper/broker unless requested by Service Recipient.)</li>
+          <li class="editable-text">Handling and storage of paperwork. (All documents will be sent to Service Recipient unless other arrangements are made)</li>
+          <li class="editable-text">DOT compliance issues.</li>
+          <li class="editable-text">Spike Insurance.</li>
+          <li class="editable-text">Fuel Cards.</li>
+        </ol>
+
+        <!-- 8. Governing Law -->
+        <h3 class="section-heading editable-text">8. Governing Law</h3>
+        <p class="legal-paragraph editable-text">
+          This agreement shall be governed by and construed in accordance with the laws of the State of Pennsylvania, without giving effect to any choice of law or conflict of laws, provisions or rules (whether of the State of New York or any other jurisdiction) that would cause the application of the laws of any jurisdiction other than those of the State of Pennsylvania.
+        </p>
+
+        <footer class="page-footer-meta">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 3 of 7</span>
+        </footer>
+      </article>
+
+      <!-- ================= PAGE 4: SECTION 9 & EXECUTION ================= -->
+      <article class="doc-page" id="page4">
+        <!-- 9. Jurisdictions and Venue -->
+        <h3 class="section-heading editable-text" style="margin-top: 0;">9. Jurisdictions and Venue</h3>
+        <p class="legal-paragraph editable-text">
+          J&amp;B Expedite Logistics LLC and Service Recipient hereby consent to and agree to submit to the jurisdiction of the Federal and state courts located in New York in connection with any claims or controversies arising out of the Agreement.
+        </p>
+
+        <p class="legal-paragraph editable-text" style="margin-top: 1.5rem; font-weight: 600;">
+          IN WITNESS WHEREOF, the parties hereto have executed this Agreement as the date written.
+        </p>
+
+        <!-- Signatures Grid -->
+        <div class="sig-grid" style="margin-top: 2rem;">
+          <!-- Left Column: Service Recipient -->
+          <div class="sig-col">
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC">
+              <span class="field-label">(Print Company Name)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <div class="sig-box-wrapper" data-signer-sync="signer_name" title="Click to Sign / Change Signature">
+                <span class="sig-hint-overlay">Click to Sign</span>
+                <div class="signature-display">
+                  <div class="sig-script-text">Harold Williams</div>
+                  <span class="sig-stamp-text">Harold Williams (Sep 30, 2025 11:10:19 CDT)</span>
+                </div>
+              </div>
+              <span class="field-label">(Signature of Company Representative)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="signer_name" value="Harold Williams">
+              <span class="field-label">(Print Company Representative&rsquo;s Name)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="signer_title" value="Owner Operator">
+              <span class="field-label">(Company Representative&rsquo;s Title)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="signer_date" value="30/Sep/2025">
+              <span class="field-label">(Date)</span>
+            </div>
+          </div>
+
+          <!-- Right Column: J&B Expedite Logistics LLC -->
+          <div class="sig-col">
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" value="J&B Expedite Logistics LLC" style="font-weight: 700;">
+              <span class="field-label">(Print Company Name)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <div class="sig-box-wrapper" data-signer-sync="executive_name" title="Click to Sign / Change Signature">
+                <span class="sig-hint-overlay">Click to Sign</span>
+                <div class="signature-display">
+                  <div class="sig-script-text">Henry Lewis</div>
+                  <span class="sig-stamp-text">Henry Lewis (Sep 30, 2025 22:06:15 GMT+5)</span>
+                </div>
+              </div>
+              <span class="field-label">(Signature of Business Development Executive)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="executive_name" value="Henry Lewis">
+              <span class="field-label">(Print Representative Name)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="executive_title" value="Business Development Executive">
+              <span class="field-label">(Company Officer&rsquo;s Title)</span>
+            </div>
+
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="executive_date" value="30/Sep/2025">
+              <span class="field-label">(Date)</span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="page-footer-meta" style="margin-top: auto;">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 4 of 7</span>
+        </footer>
+      </article>
+
+      <!-- ================= PAGE 5: LIMITED POWER OF ATTORNEY ================= -->
+      <article class="doc-page" id="page5">
+        <h2 class="section-banner editable-text">Limited Power of Attorney Form</h2>
+
+        <p class="legal-paragraph editable-text" style="line-height: 1.65; margin-top: 1.5rem;">
+          BE IT KNOWN, that
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 250px; font-weight: 700;">
+          with an MC or DOT number of
+          <input type="text" class="input-inline" data-sync="dot_mc_number" value="1753535" style="width: 140px; font-weight: 700; text-align: center;">
+          has made and appointed, and by these presents does make and appoint J&amp;B Expedite Logistics LLC , true and lawful attorney for, place and stead, for the limited and specific purpose of contracting loads of freight to be hauled by, giving and granting said J&amp;B Expedite Logistics LLC , full power and authority to do and perform all and every act and thing whatsoever necessary to be done in and about the specific and limited terms (set out herein) as fully, to all intents and purposes, as might or could be done if personally present, with full power of substitution and revocation, hereby ratifying and confirming all that said attorney shall lawfully do or cause to be done by virtue thereof.
+        </p>
+
+        <p class="legal-paragraph editable-text" style="margin-top: 1.8rem;">
+          This power of attorney is to remain in full force and effect until revoked by me in writing. Such revocation is to be emailed to:
+        </p>
+
+        <p class="editable-text" style="text-align: center; margin: 1rem 0 2rem 0;">
+          <a href="mailto:Jnbexpedite@gmail.com" style="color: #e6a800; font-weight: 700; text-decoration: none; font-size: 11pt;">Jnbexpedite@gmail.com</a>
+        </p>
+
+        <!-- Company Name Line -->
+        <div style="margin-bottom: 1.5rem;">
+          <span style="font-weight: 700; font-size: 9.5pt;">COMPANY NAME:</span>
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 320px; font-weight: 700;">
+        </div>
+
+        <!-- 2 Column Execution -->
+        <div class="sig-grid" style="margin-top: 1rem;">
+          <div class="sig-col">
+            <div class="sig-field-group">
+              <span class="field-label" style="margin-bottom: 2px;">Signature:</span>
+              <div class="sig-box-wrapper" data-signer-sync="signer_name" title="Click to Sign / Change Signature">
+                <span class="sig-hint-overlay">Click to Sign</span>
+                <div class="signature-display">
+                  <div class="sig-script-text">Harold Williams</div>
+                  <span class="sig-stamp-text">Harold Williams (Sep 30, 2025 11:10:19 CDT)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="sig-field-group">
+              <span class="field-label">Title:</span>
+              <input type="text" class="input-underline-block" data-sync="signer_title" value="Owner Operator">
+            </div>
+          </div>
+
+          <div class="sig-col">
+            <div class="sig-field-group">
+              <span class="field-label" style="margin-bottom: 2px;">Printed Name:</span>
+              <input type="text" class="input-underline-block" data-sync="signer_name" value="Harold Williams" style="min-height: 48px;">
+            </div>
+
+            <div class="sig-field-group">
+              <span class="field-label">Date:</span>
+              <input type="text" class="input-underline-block" data-sync="signer_date" value="30/Sep/2025">
+            </div>
+          </div>
+        </div>
+
+        <!-- SMS Authorization Checkbox -->
+        <div style="margin-top: 3rem; padding-top: 1rem;">
+          <label class="custom-checkbox-label" style="font-weight: 700; font-size: 10.5pt;">
+            <input type="checkbox" id="allow_sms" checked>
+            <span>I allow J&amp;B Expedite Logistics to send me text messages.</span>
+          </label>
+        </div>
+
+        <footer class="page-footer-meta" style="margin-top: auto;">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 5 of 7</span>
+        </footer>
+      </article>
+
+      <!-- ================= PAGE 6: CARD AUTHORIZATION FORM ================= -->
+      <article class="doc-page" id="page6">
+        <h2 class="section-banner editable-text">Card Authorization Form</h2>
+
+        <p class="legal-paragraph editable-text" style="line-height: 1.8; margin-top: 1.2rem;">
+          I,
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 220px; text-align: center; font-weight: 700;">
+          give permission to
+          <input type="text" class="input-inline" value="J & B Expedite Logistics Llc" style="width: 210px; text-align: center; font-weight: 700;">
+          to charge my card for the following purchases. My card details will be stored in my profile and will only be used for agreed upon services.
+        </p>
+
+        <!-- Labels under names -->
+        <div style="display: flex; justify-content: space-between; padding: 0 40px; margin-bottom: 1.5rem;">
+          <span class="field-label" style="text-align: center; width: 220px;">Buyer name</span>
+          <span class="field-label" style="text-align: center; width: 210px;">Business name</span>
+        </div>
+
+        <!-- 3 Items Row -->
+        <div class="form-row-triplet" style="margin-bottom: 2rem;">
+          <div>
+            <input type="text" class="input-underline-block" data-sync="pricing_rate" value="10% of weekly gross, Made by J&B Expedite">
+            <span class="field-label">Amount authorized</span>
+          </div>
+          <div>
+            <input type="email" class="input-underline-block" data-sync="cardholder_email" value="bubbawilliams@icloud.com">
+            <span class="field-label">Cardholder email</span>
+          </div>
+          <div>
+            <input type="text" class="input-underline-block" data-sync="product_service" value="Dispatch Service Fee">
+            <span class="field-label">Product/service</span>
+          </div>
+        </div>
+
+        <!-- Card Information Box -->
+        <div style="font-size: 8.5pt; color: #475569; margin-bottom: 4px;">All fields required</div>
+        <div class="card-info-box">
+          <h4 style="font-size: 11pt; font-weight: 700; color: #0f172a; margin-bottom: 0.5rem;">Card information</h4>
+          
+          <div class="box-inner-grid">
+            <!-- Left: Card Types -->
+            <div class="card-types-list">
+              <span style="font-size: 8.5pt; font-weight: 600; color: #475569; margin-bottom: 4px;">Card type</span>
+              <label class="custom-checkbox-label">
+                <input type="checkbox" name="card_type" id="card_mastercard">
+                <span>MasterCard</span>
+              </label>
+              <label class="custom-checkbox-label">
+                <input type="checkbox" name="card_type" id="card_discover">
+                <span>Discover</span>
+              </label>
+              <label class="custom-checkbox-label">
+                <input type="checkbox" name="card_type" id="card_visa">
+                <span>VISA</span>
+              </label>
+              <label class="custom-checkbox-label">
+                <input type="checkbox" name="card_type" id="card_amex">
+                <span>AMEX</span>
+              </label>
+              <label class="custom-checkbox-label" style="align-items: baseline;">
+                <input type="checkbox" name="card_type" id="card_other">
+                <div style="display: flex; align-items: baseline; gap: 4px; width: 100%;">
+                  <span>Other</span>
+                  <input type="text" class="input-inline" data-sync="card_type_other" value="N/A" style="width: 80px;">
+                </div>
+              </label>
+            </div>
+
+            <!-- Right: Card Inputs -->
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+              <div>
+                <input type="text" class="input-underline-block" data-sync="card_name" value="N/A">
+                <span class="field-label">Cardholder (Name on card)</span>
+              </div>
+
+              <div>
+                <input type="text" class="input-underline-block" data-sync="card_number" value="N/A">
+                <span class="field-label">Card number</span>
+              </div>
+
+              <div class="form-row-triplet" style="margin-top: 0;">
+                <div>
+                  <input type="text" class="input-underline-block" data-sync="card_exp" value="N/A">
+                  <span class="field-label">Expiration date (MM/YYYY)</span>
+                </div>
+                <div>
+                  <input type="text" class="input-underline-block" data-sync="card_zip" value="N/A">
+                  <span class="field-label">ZIP code (From credit card billing address)</span>
+                </div>
+                <div>
+                  <input type="text" class="input-underline-block" data-sync="card_cvv" value="N/A">
+                  <span class="field-label">CVV</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Signatures -->
+        <div class="sig-grid" style="margin-top: 2.5rem;">
+          <div class="sig-col">
+            <div class="sig-field-group">
+              <div class="sig-box-wrapper" data-signer-sync="signer_name" title="Click to Sign / Change Signature">
+                <span class="sig-hint-overlay">Click to Sign</span>
+                <div class="signature-display">
+                  <div class="sig-script-text">Harold Williams</div>
+                  <span class="sig-stamp-text">Harold Williams (Sep 30, 2025 11:10:19 CDT)</span>
+                </div>
+              </div>
+              <span class="field-label">Customer signature</span>
+            </div>
+          </div>
+
+          <div class="sig-col">
+            <div class="sig-field-group">
+              <input type="text" class="input-underline-block" data-sync="signer_date" value="30/Sep/2025" style="min-height: 52px;">
+              <span class="field-label">Date</span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="page-footer-meta" style="margin-top: auto;">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 6 of 7</span>
+        </footer>
+      </article>
+
+      <!-- ================= PAGE 7: BANK TRANSFER AUTHORIZATION FORM ================= -->
+      <article class="doc-page" id="page7">
+        <h2 class="section-banner editable-text">Bank Transfer Authorization Form</h2>
+
+        <p class="legal-paragraph editable-text" style="line-height: 1.8; margin-top: 1.2rem;">
+          I authorize
+          <input type="text" class="input-inline" value="J&B Expedite, LLC" style="width: 250px; font-weight: 700; text-align: center;">
+          to electronically debit my bank account according to the terms agreed upon. I acknowledge that electronic debits against my account must comply with United States law.
+        </p>
+
+        <div style="margin-left: 90px; margin-bottom: 1.5rem;">
+          <span class="field-label">Business name</span>
+        </div>
+
+        <!-- Bank Account Section -->
+        <h4 style="font-size: 10.5pt; font-weight: 700; color: #1e293b; margin: 1.5rem 0 0.8rem 0;">Customer bank account information:</h4>
+
+        <div class="form-row-compact" style="margin-bottom: 1.2rem;">
+          <div>
+            <input type="text" class="input-underline-block" data-sync="bank_routing" value="N/A">
+            <span class="field-label">Routing number</span>
+          </div>
+          <div>
+            <input type="text" class="input-underline-block" data-sync="bank_account" value="N/A">
+            <span class="field-label">Account number</span>
+          </div>
+        </div>
+
+        <!-- Account Types -->
+        <div style="display: flex; gap: 2rem; align-items: center; margin: 1rem 0;">
+          <span style="font-size: 9.5pt; font-weight: 600; color: #334155;">Account type:</span>
+          <label class="custom-checkbox-label">
+            <input type="checkbox" id="bank_checking">
+            <span>Checking</span>
+          </label>
+          <label class="custom-checkbox-label">
+            <input type="checkbox" id="bank_savings">
+            <span>Savings</span>
+          </label>
+          <label class="custom-checkbox-label">
+            <input type="checkbox" id="bank_consumer">
+            <span>Consumer</span>
+          </label>
+          <label class="custom-checkbox-label">
+            <input type="checkbox" id="bank_business">
+            <span>Business</span>
+          </label>
+        </div>
+
+        <!-- Zelle ID Line -->
+        <div style="margin: 1.5rem 0;">
+          <span style="font-weight: 600; font-size: 10pt;">Zelle ID:</span>
+          <input type="text" class="input-inline" data-sync="bank_zelle" value="N/A" style="width: 350px;">
+        </div>
+
+        <!-- Cancellation Statement -->
+        <p class="legal-paragraph editable-text" style="line-height: 1.65; margin-top: 1.8rem;">
+          This payment authorization is to remain in effect until I,
+          <input type="text" class="input-inline" data-sync="bank_customer_name" value="N/A" style="width: 140px; text-align: center;">
+          , notify J&amp;B Expedite Logistics LLC of its cancellation by giving written notice in enough time for the business and receiving financial institution to have a reasonable opportunity to act on it after clearing of all the pending payments or extra charges due to my cancellations charged to J&amp;B Expedite Logistics LLC .
+        </p>
+        <div style="margin-left: 280px; margin-bottom: 2rem;">
+          <span class="field-label">Customer name</span>
+        </div>
+
+        <!-- Bottom Signatures (3 items) -->
+        <div class="form-row-triplet" style="margin-top: 2.5rem;">
+          <div class="sig-field-group">
+            <div class="sig-box-wrapper" data-signer-sync="signer_name" title="Click to Sign / Change Signature">
+              <span class="sig-hint-overlay">Click to Sign</span>
+              <div class="signature-display">
+                <div class="sig-script-text">Harold Williams</div>
+                <span class="sig-stamp-text">Harold Williams (Sep 30, 2025 11:10:19 CDT)</span>
+              </div>
+            </div>
+            <span class="field-label">Customer signature</span>
+          </div>
+
+          <div class="sig-field-group">
+            <input type="text" class="input-underline-block" data-sync="signer_name" value="Harold Williams" style="min-height: 52px;">
+            <span class="field-label">Customer printed name</span>
+          </div>
+
+          <div class="sig-field-group">
+            <input type="text" class="input-underline-block" data-sync="signer_date" value="30/Sep/2025" style="min-height: 52px;">
+            <span class="field-label">Date</span>
+          </div>
+        </div>
+
+        <footer class="page-footer-meta" style="margin-top: auto;">
+          <span>J&amp;B Expedite Logistics LLC</span>
+          <span>Page 7 of 7</span>
+        </footer>
+      </article>
+
+    </main>
+  </div>
+
+  <!-- ================= SIGNATURE DRAW / TYPE MODAL ================= -->
+  <div class="modal-backdrop" id="signatureModal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3><span>✍️</span> Digital Signature</h3>
+        <button class="modal-close-btn close-modal" title="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="sig-tabs">
+          <button class="sig-tab-btn active" data-tab="tabDraw">Draw Signature</button>
+          <button class="sig-tab-btn" data-tab="tabType">Type Signature</button>
+        </div>
+
+        <!-- Draw Tab -->
+        <div class="sig-tab-content active" id="tabDraw">
+          <div class="draw-canvas-container">
+            <canvas id="signatureCanvas"></canvas>
+          </div>
+          <div class="canvas-toolbar">
+            <span style="font-size: 0.75rem; color: #64748b;">Sign inside the box using mouse or finger / touch stylus</span>
+            <button id="btnClearCanvas" class="btn btn-outline" style="color: #334155; border-color: #cbd5e1; padding: 3px 8px; font-size: 0.75rem;">Clear</button>
+          </div>
+        </div>
+
+        <!-- Type Tab -->
+        <div class="sig-tab-content" id="tabType">
+          <div class="type-sig-container">
+            <label style="font-size: 0.75rem; font-weight: 600; color: #475569; display: block; margin-bottom: 4px;">Type your name:</label>
+            <input type="text" id="typeSigInput" value="Harold Williams" placeholder="Enter Full Name">
+
+            <div class="font-preview-grid">
+              <div class="font-preview-item selected" data-font="Caveat">
+                <span class="font-sample-text" style="font-family: 'Caveat', cursive;">Harold Williams</span>
+                <span style="font-size: 0.7rem; color: #94a3b8;">Caveat</span>
+              </div>
+              <div class="font-preview-item" data-font="Dancing Script">
+                <span class="font-sample-text" style="font-family: 'Dancing Script', cursive;">Harold Williams</span>
+                <span style="font-size: 0.7rem; color: #94a3b8;">Dancing Script</span>
+              </div>
+              <div class="font-preview-item" data-font="Great Vibes">
+                <span class="font-sample-text" style="font-family: 'Great Vibes', cursive;">Harold Williams</span>
+                <span style="font-size: 0.7rem; color: #94a3b8;">Great Vibes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-outline close-modal" style="color: #475569; border-color: #cbd5e1;">Cancel</button>
+        <button id="btnApplySignature" class="btn btn-primary">Apply Signature</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Message Element -->
+  <div class="toast-msg"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
