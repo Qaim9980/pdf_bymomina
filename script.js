@@ -1,6 +1,7 @@
 /**
  * J&B Expedite Logistics LLC - Interactive Agreement & Form Manager
- * Supports: Live Edit Mode (contenteditable), Auto-Sync, Signature Drawing & Typing,
+ * Supports: 3-Bars Hamburger Off-Canvas Drawer with 3 Slides (Pages, Sync, Tools),
+ * Live Edit Mode (contenteditable), Auto-Sync, Signature Drawing & Typing,
  * LocalStorage Auto-Save, Clean PDF Printing, and JSON/HTML Export.
  */
 
@@ -10,7 +11,8 @@ const appState = {
   activeSigTarget: null,
   activeSigType: 'draw',
   selectedFont: 'Caveat',
-  zoomLevel: 100
+  zoomLevel: 100,
+  activeSidebarSlide: 'slidePages'
 };
 
 // Default PDF Data
@@ -44,13 +46,134 @@ const defaultData = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  initSidebarDrawer();
+  initSidebarSlides();
+  initPageScrollSpy();
   initFieldSync();
   initSignatureModal();
   initSignatureCanvas();
   initToolbarActions();
-  initSidebar();
   loadSavedData();
 });
+
+/* ==========================================================================
+   OFF-CANVAS SIDEBAR WITH 3-BARS HAMBURGER MENU & 3 SLIDES
+   ========================================================================== */
+function initSidebarDrawer() {
+  const drawer = document.getElementById('sidebarDrawer');
+  const backdrop = document.getElementById('sidebarBackdrop');
+  const toggleBtn = document.getElementById('btnToggleSidebar');
+  const floatBtn = document.getElementById('btnFloatingSidebar');
+  const closeBtn = document.getElementById('sidebarCloseBtn');
+
+  function openSidebar() {
+    if (drawer) drawer.classList.add('open');
+    if (backdrop) backdrop.classList.add('active');
+    if (toggleBtn) toggleBtn.classList.add('active');
+    if (floatBtn) floatBtn.classList.add('active');
+    document.body.style.overflow = window.innerWidth < 768 ? 'hidden' : '';
+  }
+
+  function closeSidebar() {
+    if (drawer) drawer.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+    if (toggleBtn) toggleBtn.classList.remove('active');
+    if (floatBtn) floatBtn.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function toggleSidebar() {
+    if (drawer && drawer.classList.contains('open')) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  }
+
+  if (toggleBtn) toggleBtn.addEventListener('click', toggleSidebar);
+  if (floatBtn) floatBtn.addEventListener('click', toggleSidebar);
+  if (closeBtn) closeBtn.addEventListener('click', closeSidebar);
+  if (backdrop) backdrop.addEventListener('click', closeSidebar);
+
+  // Close on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer && drawer.classList.contains('open')) {
+      closeSidebar();
+    }
+  });
+
+  // Smooth scroll and auto-close on mobile when page card is clicked
+  const pageLinks = document.querySelectorAll('.page-card-link');
+  pageLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('href');
+      const targetElem = document.querySelector(targetId);
+      if (targetElem) {
+        targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        pageLinks.forEach(l => l.classList.remove('current-page'));
+        link.classList.add('current-page');
+
+        if (window.innerWidth < 1024) {
+          closeSidebar();
+        }
+      }
+    });
+  });
+}
+
+/* ==========================================================================
+   THE 3 SLIDES TAB CONTROLLER
+   ========================================================================== */
+function initSidebarSlides() {
+  const tabBtns = document.querySelectorAll('.slide-tab-btn');
+  const slidePanels = document.querySelectorAll('.slide-panel');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetSlideId = btn.dataset.slide;
+      if (!targetSlideId) return;
+
+      tabBtns.forEach(b => b.classList.remove('active'));
+      slidePanels.forEach(p => p.classList.remove('active'));
+
+      btn.classList.add('active');
+      const panel = document.getElementById(targetSlideId);
+      if (panel) panel.classList.add('active');
+
+      appState.activeSidebarSlide = targetSlideId;
+    });
+  });
+}
+
+/* ==========================================================================
+   PAGE SCROLL SPY (HIGHLIGHT CURRENT PAGE IN SLIDE 1)
+   ========================================================================== */
+function initPageScrollSpy() {
+  const pages = document.querySelectorAll('.doc-page');
+  const navLinks = document.querySelectorAll('.page-card-link');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          if (link.getAttribute('href') === `#${id}`) {
+            link.classList.add('current-page');
+          } else {
+            link.classList.remove('current-page');
+          }
+        });
+      }
+    });
+  }, {
+    root: null,
+    rootMargin: '-20% 0px -60% 0px',
+    threshold: 0
+  });
+
+  pages.forEach(p => observer.observe(p));
+}
 
 /* ==========================================================================
    FIELD SYNC & AUTO-UPDATE
@@ -67,12 +190,24 @@ function initFieldSync() {
     }
   });
 
-  // Also listen for contenteditable updates if applicable
+  // Listen for contenteditable updates
   document.addEventListener('blur', (e) => {
     if (e.target.isContentEditable) {
       autoSaveToStorage();
     }
   }, true);
+
+  // Sidebar sync inputs
+  const syncInputs = document.querySelectorAll('.sidebar-sync-input');
+  syncInputs.forEach(input => {
+    input.addEventListener('input', (e) => {
+      const key = e.target.dataset.sidebarSync;
+      if (key) {
+        syncFields(key, e.target.value);
+        autoSaveToStorage();
+      }
+    });
+  });
 }
 
 function syncFields(key, value, sourceElem = null) {
@@ -87,8 +222,8 @@ function syncFields(key, value, sourceElem = null) {
     }
   });
 
-  // Also update sidebar sync inputs if present
-  const sidebarInput = document.getElementById(`sync_${key}`);
+  // Update sidebar inputs matching key
+  const sidebarInput = document.querySelector(`.sidebar-sync-input[data-sidebar-sync="${key}"]`);
   if (sidebarInput && sidebarInput !== sourceElem) {
     sidebarInput.value = value;
   }
@@ -101,17 +236,26 @@ function toggleEditAllMode() {
   appState.editAllMode = !appState.editAllMode;
   document.body.classList.toggle('mode-edit-all', appState.editAllMode);
 
-  const editBtn = document.getElementById('btnToggleEditAll');
-  if (editBtn) {
+  const editBtns = [
+    document.getElementById('btnToggleEditAll'),
+    document.getElementById('btnSidebarToggleEdit')
+  ];
+
+  editBtns.forEach(btn => {
+    if (!btn) return;
     if (appState.editAllMode) {
-      editBtn.classList.add('btn-active');
-      editBtn.innerHTML = '<span>✏️</span> <b>Editing Mode: ON</b> (Click Any Text to Edit)';
-      showToast('✏️ Edit Mode ON: You can now click & edit any text, header, or clause anywhere!');
+      btn.classList.add('btn-active');
+      btn.innerHTML = '<span>✏️</span> <b>Editing Mode: ON</b>';
     } else {
-      editBtn.classList.remove('btn-active');
-      editBtn.innerHTML = '<span>✏️</span> Edit All Text Mode';
-      showToast('Document locked to Form Fill Mode.');
+      btn.classList.remove('btn-active');
+      btn.innerHTML = '<span>✏️</span> Edit All Text Mode';
     }
+  });
+
+  if (appState.editAllMode) {
+    showToast('✏️ <b>Edit Mode ON:</b> Click ANY text, clause, heading, or bullet point anywhere to edit!');
+  } else {
+    showToast('Document returned to standard Form Fill Mode.');
   }
 
   // Set contenteditable attribute on legal content containers
@@ -337,74 +481,66 @@ function getFormattedTimestamp() {
    TOOLBAR & DOCUMENT ACTIONS
    ========================================================================== */
 function initToolbarActions() {
-  // Edit Mode Button
+  // Edit Mode Buttons
   const btnToggleEdit = document.getElementById('btnToggleEditAll');
   if (btnToggleEdit) {
     btnToggleEdit.addEventListener('click', toggleEditAllMode);
   }
+  const btnSidebarToggleEdit = document.getElementById('btnSidebarToggleEdit');
+  if (btnSidebarToggleEdit) {
+    btnSidebarToggleEdit.addEventListener('click', toggleEditAllMode);
+  }
 
   // Print / Save PDF
-  const btnPrint = document.getElementById('btnPrintDoc');
-  if (btnPrint) {
-    btnPrint.addEventListener('click', () => {
-      window.print();
-    });
-  }
+  const printBtns = [document.getElementById('btnPrintDoc'), document.getElementById('btnSidebarPrint')];
+  printBtns.forEach(btn => {
+    if (btn) btn.addEventListener('click', () => window.print());
+  });
 
   // Save to Storage
-  const btnSave = document.getElementById('btnSaveData');
-  if (btnSave) {
-    btnSave.addEventListener('click', () => {
-      saveAllData();
-      showToast('💾 All changes saved to browser storage!');
-    });
-  }
+  const saveBtns = [document.getElementById('btnSaveData'), document.getElementById('btnSidebarSave')];
+  saveBtns.forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        saveAllData();
+        showToast('💾 All changes saved to browser storage!');
+      });
+    }
+  });
 
   // Reset Data
-  const btnReset = document.getElementById('btnResetDoc');
-  if (btnReset) {
-    btnReset.addEventListener('click', () => {
-      if (confirm('Reset document to sample pre-filled values from the original agreement?')) {
-        localStorage.removeItem('jb_expedite_agreement_data');
-        location.reload();
-      }
-    });
-  }
+  const resetBtns = [document.getElementById('btnResetDoc'), document.getElementById('btnSidebarReset')];
+  resetBtns.forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (confirm('Reset document to sample pre-filled values from the original agreement?')) {
+          localStorage.removeItem('jb_expedite_agreement_data');
+          location.reload();
+        }
+      });
+    }
+  });
 
   // Export JSON
-  const btnExport = document.getElementById('btnExportJSON');
-  if (btnExport) {
-    btnExport.addEventListener('click', exportDataJSON);
-  }
+  const exportJSONBtns = [document.getElementById('btnExportJSON'), document.getElementById('btnSidebarExportJSON')];
+  exportJSONBtns.forEach(btn => {
+    if (btn) btn.addEventListener('click', exportDataJSON);
+  });
 
   // Export Standalone HTML
-  const btnExportHTML = document.getElementById('btnExportHTML');
-  if (btnExportHTML) {
-    btnExportHTML.addEventListener('click', exportCompleteHTML);
-  }
+  const exportHTMLBtns = [document.getElementById('btnExportHTML'), document.getElementById('btnSidebarExportHTML')];
+  exportHTMLBtns.forEach(btn => {
+    if (btn) btn.addEventListener('click', exportCompleteHTML);
+  });
 
   // Zoom Controls
   const btnZoomIn = document.getElementById('btnZoomIn');
   const btnZoomOut = document.getElementById('btnZoomOut');
   const btnZoomReset = document.getElementById('btnZoomReset');
 
-  if (btnZoomIn) {
-    btnZoomIn.addEventListener('click', () => updateZoom(10));
-  }
-  if (btnZoomOut) {
-    btnZoomOut.addEventListener('click', () => updateZoom(-10));
-  }
-  if (btnZoomReset) {
-    btnZoomReset.addEventListener('click', () => resetZoom());
-  }
-
-  // Toggle Sidebar
-  const btnSidebar = document.getElementById('btnToggleSidebar');
-  if (btnSidebar) {
-    btnSidebar.addEventListener('click', () => {
-      document.querySelector('.sidebar').classList.toggle('collapsed');
-    });
-  }
+  if (btnZoomIn) btnZoomIn.addEventListener('click', () => updateZoom(10));
+  if (btnZoomOut) btnZoomOut.addEventListener('click', () => updateZoom(-10));
+  if (btnZoomReset) btnZoomReset.addEventListener('click', () => resetZoom());
 }
 
 function updateZoom(delta) {
@@ -428,60 +564,16 @@ function applyZoom() {
 }
 
 /* ==========================================================================
-   SIDEBAR & PAGE JUMP
-   ========================================================================== */
-function initSidebar() {
-  const navItems = document.querySelectorAll('.page-nav-item');
-  navItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      const targetId = item.getAttribute('href');
-      const targetElem = document.querySelector(targetId);
-      if (targetElem) {
-        targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        navItems.forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-      }
-    });
-  });
-
-  // Sidebar sync inputs
-  const sidebarSyncCarrier = document.getElementById('sync_carrier_name');
-  if (sidebarSyncCarrier) {
-    sidebarSyncCarrier.addEventListener('input', (e) => {
-      syncFields('carrier_name', e.target.value);
-    });
-  }
-
-  const sidebarSyncSigner = document.getElementById('sync_signer_name');
-  if (sidebarSyncSigner) {
-    sidebarSyncSigner.addEventListener('input', (e) => {
-      syncFields('signer_name', e.target.value);
-    });
-  }
-
-  const sidebarSyncDate = document.getElementById('sync_signer_date');
-  if (sidebarSyncDate) {
-    sidebarSyncDate.addEventListener('input', (e) => {
-      syncFields('signer_date', e.target.value);
-    });
-  }
-}
-
-/* ==========================================================================
    STORAGE & DATA IMPORT/EXPORT
    ========================================================================== */
 function collectDocumentData() {
   const data = {};
-  // Collect inputs
   document.querySelectorAll('input[data-sync], textarea[data-sync]').forEach(input => {
     data[input.dataset.sync] = input.value;
   });
-  // Checkboxes
   document.querySelectorAll('input[type="checkbox"]').forEach((cb, idx) => {
     data['checkbox_' + (cb.id || idx)] = cb.checked;
   });
-  // Contenteditable content
   const editableNodes = [];
   document.querySelectorAll('.editable-text, p.legal-paragraph, h1.doc-title, h2.section-banner, h3.section-heading').forEach((node, idx) => {
     editableNodes.push({ id: idx, html: node.innerHTML });
@@ -505,7 +597,6 @@ function loadSavedData() {
 
   try {
     const data = JSON.parse(saved);
-    // Populate synced fields
     for (const [key, val] of Object.entries(data)) {
       if (key.startsWith('checkbox_')) {
         const id = key.replace('checkbox_', '');
@@ -515,7 +606,6 @@ function loadSavedData() {
         syncFields(key, val);
       }
     }
-    // Populate text nodes
     if (data._editableNodes && Array.isArray(data._editableNodes)) {
       const nodes = document.querySelectorAll('.editable-text, p.legal-paragraph, h1.doc-title, h2.section-banner, h3.section-heading');
       data._editableNodes.forEach(item => {
@@ -542,7 +632,6 @@ function exportDataJSON() {
 }
 
 function exportCompleteHTML() {
-  // Bake input values into attributes for standalone archive
   document.querySelectorAll('input').forEach(input => {
     if (input.type === 'checkbox') {
       if (input.checked) input.setAttribute('checked', '');

@@ -11,7 +11,16 @@
   <!-- Top App Navigation & Controls Header (Hidden in Print) -->
   <header class="app-header no-print">
     <div class="brand-wrapper">
-      <button id="btnToggleSidebar" class="btn btn-dark" title="Toggle Navigation Sidebar">☰ Menu</button>
+      <!-- 3-Bars Hamburger Button to Slide Open Menu -->
+      <button id="btnToggleSidebar" class="hamburger-btn" aria-label="Toggle Navigation Drawer" title="Open Navigation Drawer (3 Slides Menu)">
+        <span class="hamburger-box">
+          <span class="hamburger-bar top"></span>
+          <span class="hamburger-bar mid"></span>
+          <span class="hamburger-bar bot"></span>
+        </span>
+        <span class="hamburger-text">Menu</span>
+      </button>
+
       <span class="brand-badge">J&amp;B</span>
       <div>
         <div class="brand-title">J&amp;B Expedite Logistics LLC</div>
@@ -26,7 +35,7 @@
       </button>
 
       <!-- Zoom Controls -->
-      <div style="display: flex; align-items: center; background: #2b313a; border-radius: 6px; padding: 2px 6px;">
+      <div style="display: flex; align-items: center; background: #232934; border-radius: 6px; padding: 2px 6px;">
         <button id="btnZoomOut" class="btn btn-dark" style="padding: 4px 8px;" title="Zoom Out">−</button>
         <span id="zoomDisplay" style="font-size: 0.78rem; font-weight: 700; min-width: 42px; text-align: center; color: #f5b301;">100%</span>
         <button id="btnZoomIn" class="btn btn-dark" style="padding: 4px 8px;" title="Zoom In">+</button>
@@ -56,49 +65,229 @@
     </div>
   </header>
 
+  <!-- Floating 3-Bars Hamburger Button (Accessible on scroll) -->
+  <button id="btnFloatingSidebar" class="floating-hamburger-btn no-print" title="Open Navigation Menu">
+    <span class="hamburger-box">
+      <span class="hamburger-bar top"></span>
+      <span class="hamburger-bar mid"></span>
+      <span class="hamburger-bar bot"></span>
+    </span>
+    <span>Menu (3 Slides)</span>
+  </button>
+
+  <!-- Sidebar Backdrop Overlay -->
+  <div id="sidebarBackdrop" class="sidebar-backdrop no-print"></div>
+
+  <!-- Off-Canvas Left Sidebar Drawer with 3 Slides Bar -->
+  <aside id="sidebarDrawer" class="sidebar-drawer no-print">
+    <!-- Drawer Header -->
+    <div class="sidebar-header">
+      <div class="sidebar-brand-box">
+        <span class="sidebar-brand-badge">J&amp;B</span>
+        <div class="sidebar-brand-text">
+          <h3>J&amp;B EXPEDITE</h3>
+          <p>Document Navigator &amp; Suite</p>
+        </div>
+      </div>
+      <button id="sidebarCloseBtn" class="sidebar-close-btn" title="Close Drawer">&times;</button>
+    </div>
+
+    <!-- The 3 Slides Bar (Tabs Switcher) -->
+    <div class="sidebar-tabs-bar">
+      <button class="slide-tab-btn active" data-slide="slidePages" title="Slide 1: Document Pages">
+        <span class="tab-icon">📄</span>
+        <span class="tab-text">Pages</span>
+        <span class="tab-badge">7</span>
+      </button>
+      <button class="slide-tab-btn" data-slide="slideSync" title="Slide 2: Live Field Synchronizer">
+        <span class="tab-icon">⚡</span>
+        <span class="tab-text">Auto-Sync</span>
+      </button>
+      <button class="slide-tab-btn" data-slide="slideTools" title="Slide 3: Document Actions & Tools">
+        <span class="tab-icon">🛠️</span>
+        <span class="tab-text">Tools</span>
+      </button>
+    </div>
+
+    <!-- 3 Slides Viewport -->
+    <div class="sidebar-panels-viewport">
+
+      <!-- SLIDE 1: Document Index (7 Pages) -->
+      <div id="slidePages" class="slide-panel active">
+        <div class="panel-intro">
+          <h4>Document Index (7 Pages)</h4>
+          <span style="font-size: 0.68rem; color: #94a3b8;">Click to jump</span>
+        </div>
+        <div class="page-cards-list">
+          <a href="#page1" class="page-card-link current-page">
+            <div class="page-num-circle">1</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Welcome &amp; Cover Page</div>
+              <div class="page-card-subtitle">Emblem, Introduction &amp; Contact</div>
+            </div>
+            <span class="page-card-tag">Cover</span>
+          </a>
+
+          <a href="#page2" class="page-card-link">
+            <div class="page-num-circle">2</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Recitals &amp; Statement of Work</div>
+              <div class="page-card-subtitle">Sections 1 to 5, Pricing &amp; Terms</div>
+            </div>
+            <span class="page-card-tag">Sec 1-5</span>
+          </a>
+
+          <a href="#page3" class="page-card-link">
+            <div class="page-num-circle">3</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Provisions &amp; Disclaimer</div>
+              <div class="page-card-subtitle">Sections 6 to 8, Governing Law</div>
+            </div>
+            <span class="page-card-tag">Sec 6-8</span>
+          </a>
+
+          <a href="#page4" class="page-card-link">
+            <div class="page-num-circle">4</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Jurisdiction &amp; Signatures</div>
+              <div class="page-card-subtitle">Section 9, Dual-party Execution</div>
+            </div>
+            <span class="page-card-tag" style="color: #f5b301;">Sign ✍️</span>
+          </a>
+
+          <a href="#page5" class="page-card-link">
+            <div class="page-num-circle">5</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Power of Attorney Form</div>
+              <div class="page-card-subtitle">Limited POA &amp; SMS Consent</div>
+            </div>
+            <span class="page-card-tag" style="color: #f5b301;">Sign ✍️</span>
+          </a>
+
+          <a href="#page6" class="page-card-link">
+            <div class="page-num-circle">6</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Card Authorization Form</div>
+              <div class="page-card-subtitle">Credit Card Details &amp; Billing</div>
+            </div>
+            <span class="page-card-tag" style="color: #f5b301;">Sign ✍️</span>
+          </a>
+
+          <a href="#page7" class="page-card-link">
+            <div class="page-num-circle">7</div>
+            <div class="page-card-info">
+              <div class="page-card-title">Bank Transfer Authorization</div>
+              <div class="page-card-subtitle">ACH, Routing/Account, Zelle ID</div>
+            </div>
+            <span class="page-card-tag" style="color: #f5b301;">Sign ✍️</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: Quick Field Synchronizer -->
+      <div id="slideSync" class="slide-panel">
+        <div class="panel-intro">
+          <h4>⚡ Field Synchronizer</h4>
+        </div>
+        <div class="sync-section-card">
+          <span class="sync-badge-pill">⚡ Auto-Syncs to All 7 Pages</span>
+          
+          <div class="sync-input-group">
+            <label>Carrier / Company Name:</label>
+            <input type="text" class="sidebar-sync-input" data-sidebar-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" placeholder="e.g. Acme Trucking LLC">
+          </div>
+
+          <div class="sync-input-group">
+            <label>Authorized Signer Full Name:</label>
+            <input type="text" class="sidebar-sync-input" data-sidebar-sync="signer_name" value="Harold Williams" placeholder="Full Name">
+          </div>
+
+          <div class="sync-input-group">
+            <label>Signer Official Title:</label>
+            <input type="text" class="sidebar-sync-input" data-sidebar-sync="signer_title" value="Owner Operator" placeholder="e.g. President / Owner">
+          </div>
+
+          <div class="sync-input-group">
+            <label>Agreement Date:</label>
+            <input type="text" class="sidebar-sync-input" data-sidebar-sync="signer_date" value="30/Sep/2025" placeholder="DD/Mon/YYYY">
+          </div>
+
+          <div class="sync-input-group">
+            <label>MC or DOT Number:</label>
+            <input type="text" class="sidebar-sync-input" data-sidebar-sync="dot_mc_number" value="1753535" placeholder="MC# or DOT#">
+          </div>
+
+          <div class="sync-input-group">
+            <label>Pricing / Agreed Rate:</label>
+            <input type="text" class="sidebar-sync-input" data-sidebar-sync="pricing_rate" value="10% of weekly gross, Made by J&B Expedite" placeholder="Rate terms">
+          </div>
+        </div>
+
+        <div style="font-size: 0.72rem; color: #8b949e; line-height: 1.45; padding: 0.3rem;">
+          💡 <i>Changing any value here updates every instance across the entire document instantly.</i>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: Document Tools & Actions -->
+      <div id="slideTools" class="slide-panel">
+        <div class="panel-intro">
+          <h4>🛠️ Document Actions</h4>
+        </div>
+        <div class="tools-grid">
+          <div class="tool-action-card">
+            <div class="tool-info">
+              <h5>✏️ Edit All Content</h5>
+              <p>Click &amp; edit ANY text, clause, or paragraph</p>
+            </div>
+            <button id="btnSidebarToggleEdit" class="btn btn-dark" style="font-size: 0.75rem;">Toggle</button>
+          </div>
+
+          <div class="tool-action-card">
+            <div class="tool-info">
+              <h5>🖨️ Print / Save as PDF</h5>
+              <p>Clean US Letter pagination (8.5&quot; &times; 11&quot;)</p>
+            </div>
+            <button id="btnSidebarPrint" class="btn btn-primary" style="font-size: 0.75rem;">Print</button>
+          </div>
+
+          <div class="tool-action-card">
+            <div class="tool-info">
+              <h5>💾 Save Progress</h5>
+              <p>Store your edits in browser memory</p>
+            </div>
+            <button id="btnSidebarSave" class="btn btn-success" style="font-size: 0.75rem;">Save</button>
+          </div>
+
+          <div class="tool-action-card">
+            <div class="tool-info">
+              <h5>📥 Standalone HTML</h5>
+              <p>Single offline HTML with your edits</p>
+            </div>
+            <button id="btnSidebarExportHTML" class="btn btn-outline" style="font-size: 0.75rem;">Export</button>
+          </div>
+
+          <div class="tool-action-card">
+            <div class="tool-info">
+              <h5>{ } Export JSON Data</h5>
+              <p>Save profile &amp; field preset values</p>
+            </div>
+            <button id="btnSidebarExportJSON" class="btn btn-outline" style="font-size: 0.75rem;">JSON</button>
+          </div>
+
+          <div class="tool-action-card">
+            <div class="tool-info">
+              <h5>🔄 Reset to Default Agreement</h5>
+              <p>Restore original sample values</p>
+            </div>
+            <button id="btnSidebarReset" class="btn btn-outline" style="font-size: 0.75rem; color: #f87171; border-color: #7f1d1d;">Reset</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </aside>
+
   <div class="app-container">
-    <!-- Sidebar / Outline & Auto-Sync Controls (Hidden in Print) -->
-    <aside class="sidebar no-print">
-      <div class="sidebar-title">
-        <span>Document Index</span>
-        <span style="font-size: 0.7rem; color: #9ca3af;">7 Pages</span>
-      </div>
-
-      <ul class="page-nav-list">
-        <li><a href="#page1" class="page-nav-item active"><span class="badge">1</span> Welcome &amp; Cover</a></li>
-        <li><a href="#page2" class="page-nav-item"><span class="badge">2</span> Recitals &amp; Work (1-5)</a></li>
-        <li><a href="#page3" class="page-nav-item"><span class="badge">3</span> Provisions (6-8)</a></li>
-        <li><a href="#page4" class="page-nav-item"><span class="badge">4</span> Signatures (Sec 9)</a></li>
-        <li><a href="#page5" class="page-nav-item"><span class="badge">5</span> Power of Attorney</a></li>
-        <li><a href="#page6" class="page-nav-item"><span class="badge">6</span> Card Authorization</a></li>
-        <li><a href="#page7" class="page-nav-item"><span class="badge">7</span> Bank Transfer Auth</a></li>
-      </ul>
-
-      <!-- Quick Sync Tools -->
-      <div class="sync-box">
-        <h4>⚡ Quick Field Sync</h4>
-        <p>Updating these automatically updates all 7 pages:</p>
-
-        <div class="sync-input-group">
-          <label for="sync_carrier_name">Carrier / Company Name:</label>
-          <input type="text" id="sync_carrier_name" value="COUNTRY MILE CARRIERS LLC" placeholder="e.g. Acme Trucking LLC">
-        </div>
-
-        <div class="sync-input-group">
-          <label for="sync_signer_name">Authorized Signer Name:</label>
-          <input type="text" id="sync_signer_name" value="Harold Williams" placeholder="Full Name">
-        </div>
-
-        <div class="sync-input-group">
-          <label for="sync_signer_date">Agreement Date:</label>
-          <input type="text" id="sync_signer_date" value="30/Sep/2025" placeholder="DD/Mon/YYYY">
-        </div>
-      </div>
-
-      <div style="font-size: 0.72rem; color: #6b7280; line-height: 1.4; padding: 0.5rem;">
-        💡 <b>Tip:</b> Click <b>"Edit All Text Mode"</b> at the top to click and edit ANY paragraph, clause, or title in the document!
-      </div>
-    </aside>
 
     <!-- Main Multi-Page Document Viewport -->
     <main class="document-viewport">
