@@ -305,7 +305,7 @@
         </h1>
 
         <!-- Welcome Text Body -->
-        <div class="doc-welcome-text" style="display: flex; flex-direction: column; gap: 1.7rem; font-size: 11pt; line-height: 1.6; text-align: left; max-width: 6.8in; margin: 0 auto;">
+        <div class="doc-welcome-text" style="display: flex; flex-direction: column; gap: 1.5rem; font-size: 11pt; line-height: 1.6; text-align: left; max-width: 100%; margin: 0 auto;">
           <p class="editable-text">
             Welcome to J&amp;B Expedite Logistics LLC! We are pleased that you have decided to give us the chance to act as your dispatch service consultant for freight options, covering your truck(s) and/or delivering the administrative functions.
           </p>
@@ -349,7 +349,7 @@
           of
           <input type="text" class="input-inline" data-sync="agreement_month_year" value="Sep, 2025" style="width: 120px; text-align: center;">
           by and between J&amp;B Expedite Logistics LLC and
-          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 250px; font-weight: 700;"> .
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="max-width: 100%; width: 250px; font-weight: 700;"> .
         </p>
         <p class="legal-paragraph editable-text">
           Hereinafter referred to as &lsquo;Service Recipient&rsquo;, desires to retain J&amp;B Expedite Logistics LLC by executing a Limited Power of Attorney form to find and secure freight for Service Recipient and their equipment. Prior to the implementation of this agreement, Service Recipient must furnish to J&amp;B Expedite Logistics LLC the following documents:
@@ -572,9 +572,9 @@
 
         <p class="legal-paragraph editable-text" style="line-height: 1.65; margin-top: 1.5rem;">
           BE IT KNOWN, that
-          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 250px; font-weight: 700;">
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="max-width: 100%; width: 250px; font-weight: 700;">
           with an MC or DOT number of
-          <input type="text" class="input-inline" data-sync="dot_mc_number" value="1753535" style="width: 140px; font-weight: 700; text-align: center;">
+          <input type="text" class="input-inline" data-sync="dot_mc_number" value="1753535" style="max-width: 100%; width: 140px; font-weight: 700; text-align: center;">
           has made and appointed, and by these presents does make and appoint J&amp;B Expedite Logistics LLC , true and lawful attorney for, place and stead, for the limited and specific purpose of contracting loads of freight to be hauled by, giving and granting said J&amp;B Expedite Logistics LLC , full power and authority to do and perform all and every act and thing whatsoever necessary to be done in and about the specific and limited terms (set out herein) as fully, to all intents and purposes, as might or could be done if personally present, with full power of substitution and revocation, hereby ratifying and confirming all that said attorney shall lawfully do or cause to be done by virtue thereof.
         </p>
 
@@ -587,9 +587,9 @@
         </p>
 
         <!-- Company Name Line -->
-        <div style="margin-bottom: 1.5rem;">
-          <span style="font-weight: 700; font-size: 9.5pt;">COMPANY NAME:</span>
-          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 320px; font-weight: 700;">
+        <div style="margin-bottom: 1.5rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem;">
+          <span style="font-weight: 700; font-size: 9.5pt; white-space: nowrap;">COMPANY NAME:</span>
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="flex: 1; min-width: 180px; max-width: 100%; font-weight: 700;">
         </div>
 
         <!-- 2 Column Execution -->
@@ -645,16 +645,20 @@
 
         <p class="legal-paragraph editable-text" style="line-height: 1.8; margin-top: 1.2rem;">
           I,
-          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="width: 220px; text-align: center; font-weight: 700;">
+          <input type="text" class="input-inline" data-sync="carrier_name" value="COUNTRY MILE CARRIERS LLC" style="max-width: 100%; width: 220px; text-align: center; font-weight: 700;">
           give permission to
-          <input type="text" class="input-inline" value="J & B Expedite Logistics Llc" style="width: 210px; text-align: center; font-weight: 700;">
+          <input type="text" class="input-inline" value="J & B Expedite Logistics Llc" style="max-width: 100%; width: 210px; text-align: center; font-weight: 700;">
           to charge my card for the following purchases. My card details will be stored in my profile and will only be used for agreed upon services.
         </p>
 
         <!-- Labels under names -->
-        <div style="display: flex; justify-content: space-between; padding: 0 40px; margin-bottom: 1.5rem;">
-          <span class="field-label" style="text-align: center; width: 220px;">Buyer name</span>
-          <span class="field-label" style="text-align: center; width: 210px;">Business name</span>
+        <div class="buyer-seller-container" style="display: flex; justify-content: space-around; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="buyer-seller-block" style="text-align: center; width: 220px; max-width: 100%;">
+            <span class="field-label">Buyer name</span>
+          </div>
+          <div class="buyer-seller-block" style="text-align: center; width: 210px; max-width: 100%;">
+            <span class="field-label">Business name</span>
+          </div>
         </div>
 
         <!-- 3 Items Row -->
@@ -772,11 +776,11 @@
 
         <p class="legal-paragraph editable-text" style="line-height: 1.8; margin-top: 1.2rem;">
           I authorize
-          <input type="text" class="input-inline" value="J&B Expedite, LLC" style="width: 250px; font-weight: 700; text-align: center;">
+          <input type="text" class="input-inline" value="J&B Expedite, LLC" style="max-width: 100%; width: 250px; font-weight: 700; text-align: center;">
           to electronically debit my bank account according to the terms agreed upon. I acknowledge that electronic debits against my account must comply with United States law.
         </p>
 
-        <div style="margin-left: 90px; margin-bottom: 1.5rem;">
+        <div style="margin-bottom: 1.5rem; padding-left: 2rem;">
           <span class="field-label">Business name</span>
         </div>
 
@@ -795,7 +799,7 @@
         </div>
 
         <!-- Account Types -->
-        <div style="display: flex; gap: 2rem; align-items: center; margin: 1rem 0;">
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; align-items: center; margin: 1rem 0;">
           <span style="font-size: 9.5pt; font-weight: 600; color: #334155;">Account type:</span>
           <label class="custom-checkbox-label">
             <input type="checkbox" id="bank_checking">
@@ -816,18 +820,18 @@
         </div>
 
         <!-- Zelle ID Line -->
-        <div style="margin: 1.5rem 0;">
-          <span style="font-weight: 600; font-size: 10pt;">Zelle ID:</span>
-          <input type="text" class="input-inline" data-sync="bank_zelle" value="N/A" style="width: 350px;">
+        <div style="margin: 1.5rem 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.5rem;">
+          <span style="font-weight: 600; font-size: 10pt; white-space: nowrap;">Zelle ID:</span>
+          <input type="text" class="input-inline" data-sync="bank_zelle" value="N/A" style="flex: 1; min-width: 160px; max-width: 100%;">
         </div>
 
         <!-- Cancellation Statement -->
         <p class="legal-paragraph editable-text" style="line-height: 1.65; margin-top: 1.8rem;">
           This payment authorization is to remain in effect until I,
-          <input type="text" class="input-inline" data-sync="bank_customer_name" value="N/A" style="width: 140px; text-align: center;">
+          <input type="text" class="input-inline" data-sync="bank_customer_name" value="N/A" style="width: 140px; text-align: center; max-width: 100%;">
           , notify J&amp;B Expedite Logistics LLC of its cancellation by giving written notice in enough time for the business and receiving financial institution to have a reasonable opportunity to act on it after clearing of all the pending payments or extra charges due to my cancellations charged to J&amp;B Expedite Logistics LLC .
         </p>
-        <div style="margin-left: 280px; margin-bottom: 2rem;">
+        <div style="margin-bottom: 2rem; padding-left: 2rem;">
           <span class="field-label">Customer name</span>
         </div>
 
