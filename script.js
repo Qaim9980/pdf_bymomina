@@ -266,18 +266,24 @@ function toggleEditAllMode() {
 }
 
 /* ==========================================================================
-   SIGNATURE MODAL & ENGINE
+   SIGNATURE MODAL & ENGINE (POINTER EVENTS & RETINA CANVAS)
    ========================================================================== */
-let canvas, ctx, isDrawing = false;
+let canvas, ctx;
+let isDrawing = false;
+let hasDrawn = false;
+let penColor = '#1e3a8a';
+let lastX = 0, lastY = 0;
 
 function initSignatureModal() {
   const modal = document.getElementById('signatureModal');
   const closeBtns = document.querySelectorAll('.close-modal');
   const tabBtns = document.querySelectorAll('.sig-tab-btn');
   const applyBtn = document.getElementById('btnApplySignature');
+  const applyAllBtn = document.getElementById('btnApplyAllSignatures');
   const clearCanvasBtn = document.getElementById('btnClearCanvas');
   const typeInput = document.getElementById('typeSigInput');
   const fontItems = document.querySelectorAll('.font-preview-item');
+  const penColorBtns = document.querySelectorAll('.pen-color-btn');
 
   // Open modal on click of signature boxes
   document.addEventListener('click', (e) => {
@@ -313,8 +319,22 @@ function initSignatureModal() {
       appState.activeSigType = tabId === 'tabDraw' ? 'draw' : 'type';
 
       if (appState.activeSigType === 'draw') {
-        resizeCanvas();
+        setTimeout(resizeCanvas, 50);
       }
+    });
+  });
+
+  // Pen color selection
+  penColorBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      penColorBtns.forEach(b => {
+        b.classList.remove('active');
+        b.style.boxShadow = '0 0 0 1px #cbd5e1';
+      });
+      btn.classList.add('active');
+      penColor = btn.dataset.color || '#1e3a8a';
+      btn.style.boxShadow = `0 0 0 2px ${penColor}`;
+      if (ctx) ctx.strokeStyle = penColor;
     });
   });
 
@@ -342,15 +362,21 @@ function initSignatureModal() {
     });
   });
 
-  // Apply Signature
+  // Apply Signature to single target
   if (applyBtn) {
-    applyBtn.addEventListener('click', applySignature);
+    applyBtn.addEventListener('click', () => applySignature(false));
+  }
+
+  // Apply Signature to all lines
+  if (applyAllBtn) {
+    applyAllBtn.addEventListener('click', () => applySignature(true));
   }
 }
 
 function openSignatureModal() {
   const modal = document.getElementById('signatureModal');
   modal.classList.add('show');
+  hasDrawn = false;
 
   // Pre-fill type input with active target's associated signer name
   const target = appState.activeSigTarget;
@@ -370,9 +396,12 @@ function openSignatureModal() {
     });
   }
 
-  if (appState.activeSigType === 'draw') {
-    setTimeout(resizeCanvas, 50);
-  }
+  // Clear and resize canvas for fresh signature
+  clearCanvas();
+  setTimeout(() => {
+    resizeCanvas();
+    clearCanvas();
+  }, 60);
 }
 
 function initSignatureCanvas() {
@@ -380,88 +409,173 @@ function initSignatureCanvas() {
   if (!canvas) return;
   ctx = canvas.getContext('2d');
 
-  function getPos(e) {
+  function getPointerPos(e) {
     const rect = canvas.getBoundingClientRect();
-    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
-    const clientY = e.clientY || (e.touches && e.touches[0].clientY);
     return {
-      x: (clientX - rect.left) * (canvas.width / rect.width),
-      y: (clientY - rect.top) * (canvas.height / rect.height)
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top
     };
   }
 
-  function startDrawing(e) {
+  // Pointer Events (supports Mouse, Touch, and Stylus flawlessly)
+  canvas.addEventListener('pointerdown', (e) => {
     isDrawing = true;
-    const pos = getPos(e);
+    hasDrawn = true;
+    try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+    const pos = getPointerPos(e);
+    lastX = pos.x;
+    lastY = pos.y;
     ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
-    e.preventDefault();
-  }
-
-  function draw(e) {
-    if (!isDrawing) return;
-    const pos = getPos(e);
-    ctx.lineTo(pos.x, pos.y);
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(lastX + 0.1, lastY + 0.1);
     ctx.stroke();
     e.preventDefault();
+  });
+
+  canvas.addEventListener('pointermove', (e) => {
+    if (!isDrawing) return;
+    const pos = getPointerPos(e);
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    lastX = pos.x;
+    lastY = pos.y;
+    e.preventDefault();
+  });
+
+  function stopDrawing(e) {
+    if (isDrawing) {
+      isDrawing = false;
+      try { canvas.releasePointerCapture(e.pointerId); } catch (_) {}
+    }
   }
 
-  function stopDrawing() {
+  canvas.addEventListener('pointerup', stopDrawing);
+  canvas.addEventListener('pointercancel', stopDrawing);
+  canvas.addEventListener('pointerleave', stopDrawing);
+
+  // Fallback touch events for any mobile browser with legacy touch handling
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches.length > 0) {
+      isDrawing = true;
+      hasDrawn = true;
+      const rect = canvas.getBoundingClientRect();
+      lastX = e.touches[0].clientX - rect.left;
+      lastY = e.touches[0].clientY - rect.top;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(lastX + 0.1, lastY + 0.1);
+      ctx.stroke();
+    }
+    e.preventDefault();
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (!isDrawing || !e.touches || e.touches.length === 0) return;
+    const rect = canvas.getBoundingClientRect();
+    const x = e.touches[0].clientX - rect.left;
+    const y = e.touches[0].clientY - rect.top;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    lastX = x;
+    lastY = y;
+    e.preventDefault();
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => {
     isDrawing = false;
-  }
-
-  canvas.addEventListener('mousedown', startDrawing);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', stopDrawing);
-  canvas.addEventListener('mouseleave', stopDrawing);
-
-  canvas.addEventListener('touchstart', startDrawing, { passive: false });
-  canvas.addEventListener('touchmove', draw, { passive: false });
-  canvas.addEventListener('touchend', stopDrawing);
+  });
 }
 
 function resizeCanvas() {
-  if (!canvas) return;
+  if (!canvas || !ctx) return;
   const rect = canvas.getBoundingClientRect();
-  canvas.width = rect.width * 2;
-  canvas.height = rect.height * 2;
-  ctx.scale(2, 2);
-  ctx.strokeStyle = '#1e3a8a';
+  if (rect.width === 0 || rect.height === 0) return;
+
+  const ratio = Math.max(window.devicePixelRatio || 1, 2);
+
+  let tempCanvas = null;
+  if (hasDrawn && canvas.width > 0 && canvas.height > 0) {
+    tempCanvas = document.createElement('canvas');
+    tempCanvas.width = canvas.width;
+    tempCanvas.height = canvas.height;
+    tempCanvas.getContext('2d').drawImage(canvas, 0, 0);
+  }
+
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0); // reset transform matrix
+  ctx.scale(ratio, ratio);
+  ctx.strokeStyle = penColor;
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  if (tempCanvas) {
+    ctx.drawImage(tempCanvas, 0, 0, rect.width, rect.height);
+  }
+}
+
+function clearCanvas() {
+  if (!ctx || !canvas) return;
+  hasDrawn = false;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const ratio = Math.max(window.devicePixelRatio || 1, 2);
+  ctx.scale(ratio, ratio);
+  ctx.strokeStyle = penColor;
   ctx.lineWidth = 2.5;
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
 }
 
-function clearCanvas() {
-  if (!ctx || !canvas) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-}
-
-function applySignature() {
+function applySignature(applyToAll = false) {
   if (!appState.activeSigTarget) return;
 
-  const displayContainer = appState.activeSigTarget.querySelector('.signature-display');
   const timestamp = getFormattedTimestamp();
+  let sigHTML = '';
 
   if (appState.activeSigType === 'draw') {
-    // Canvas signature
+    if (!hasDrawn) {
+      showToast('⚠️ Please draw your signature first, or switch to "Type Signature".');
+      return;
+    }
     const dataUrl = canvas.toDataURL('image/png');
-    displayContainer.innerHTML = `
+    sigHTML = `
       <img src="${dataUrl}" class="sig-canvas-img" alt="Digital Signature" />
       <span class="sig-stamp-text">Digitally Signed (${timestamp})</span>
     `;
   } else {
-    // Typed cursive signature
     const typeInput = document.getElementById('typeSigInput');
-    const name = typeInput.value.trim() || 'Harold Williams';
-    displayContainer.innerHTML = `
+    const name = (typeInput ? typeInput.value.trim() : '') || 'Harold Williams';
+    sigHTML = `
       <div class="sig-script-text" style="font-family: '${appState.selectedFont}', cursive;">${name}</div>
       <span class="sig-stamp-text">${name} (${timestamp})</span>
     `;
   }
 
+  if (applyToAll) {
+    const signerSync = appState.activeSigTarget.dataset.signerSync;
+    const allMatching = signerSync 
+      ? document.querySelectorAll(`.sig-box-wrapper[data-signer-sync="${signerSync}"]`)
+      : [appState.activeSigTarget];
+
+    allMatching.forEach(box => {
+      const disp = box.querySelector('.signature-display');
+      if (disp) disp.innerHTML = sigHTML;
+    });
+    showToast(`✍️ Signature applied across ${allMatching.length} signature line(s)!`);
+  } else {
+    const displayContainer = appState.activeSigTarget.querySelector('.signature-display');
+    if (displayContainer) displayContainer.innerHTML = sigHTML;
+    showToast('✍️ Signature applied successfully!');
+  }
+
   document.getElementById('signatureModal').classList.remove('show');
-  showToast('✍️ Signature applied successfully!');
   autoSaveToStorage();
 }
 
@@ -579,6 +693,15 @@ function collectDocumentData() {
     editableNodes.push({ id: idx, html: node.innerHTML });
   });
   data._editableNodes = editableNodes;
+
+  // Persist signatures across sessions
+  const signatures = {};
+  document.querySelectorAll('.sig-box-wrapper').forEach((box, idx) => {
+    const disp = box.querySelector('.signature-display');
+    if (disp) signatures[idx] = disp.innerHTML;
+  });
+  data._signatures = signatures;
+
   return data;
 }
 
@@ -602,7 +725,7 @@ function loadSavedData() {
         const id = key.replace('checkbox_', '');
         const cb = document.getElementById(id);
         if (cb) cb.checked = val;
-      } else if (key !== '_editableNodes') {
+      } else if (key !== '_editableNodes' && key !== '_signatures') {
         syncFields(key, val);
       }
     }
@@ -613,6 +736,16 @@ function loadSavedData() {
           nodes[item.id].innerHTML = item.html;
         }
       });
+    }
+    // Restore signatures
+    if (data._signatures) {
+      const boxes = document.querySelectorAll('.sig-box-wrapper');
+      for (const [idx, html] of Object.entries(data._signatures)) {
+        if (boxes[idx]) {
+          const disp = boxes[idx].querySelector('.signature-display');
+          if (disp) disp.innerHTML = html;
+        }
+      }
     }
   } catch (e) {
     console.error('Error loading stored agreement data:', e);

@@ -888,8 +888,12 @@
             <canvas id="signatureCanvas"></canvas>
           </div>
           <div class="canvas-toolbar">
-            <span style="font-size: 0.75rem; color: #64748b;">Sign inside the box using mouse or finger / touch stylus</span>
-            <button id="btnClearCanvas" class="btn btn-outline" style="color: #334155; border-color: #cbd5e1; padding: 3px 8px; font-size: 0.75rem;">Clear</button>
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Ink:</span>
+              <button type="button" class="pen-color-btn active" data-color="#1e3a8a" title="Navy Blue Ink" style="width: 20px; height: 20px; border-radius: 50%; background: #1e3a8a; border: 2px solid #fff; box-shadow: 0 0 0 2px #1e3a8a; cursor: pointer;"></button>
+              <button type="button" class="pen-color-btn" data-color="#111827" title="Black Ink" style="width: 20px; height: 20px; border-radius: 50%; background: #111827; border: 2px solid #fff; box-shadow: 0 0 0 1px #94a3b8; cursor: pointer;"></button>
+            </div>
+            <button id="btnClearCanvas" type="button" class="btn btn-outline" style="color: #334155; border-color: #cbd5e1; padding: 3px 10px; font-size: 0.75rem;">Clear</button>
           </div>
         </div>
 
@@ -917,9 +921,10 @@
         </div>
       </div>
 
-      <div class="modal-footer">
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
         <button class="btn btn-outline close-modal" style="color: #475569; border-color: #cbd5e1;">Cancel</button>
-        <button id="btnApplySignature" class="btn btn-primary">Apply Signature</button>
+        <button id="btnApplyAllSignatures" type="button" class="btn btn-dark" style="font-size: 0.78rem;" title="Apply this signature to all matching lines">Apply to All Lines</button>
+        <button id="btnApplySignature" type="button" class="btn btn-primary">Apply</button>
       </div>
     </div>
   </div>

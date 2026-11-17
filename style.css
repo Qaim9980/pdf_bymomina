@@ -1032,18 +1032,21 @@ body.mode-edit-all [contenteditable="true"]:hover {
 }
 
 .draw-canvas-container {
-  border: 1.5px dashed #cbd5e1;
+  border: 1.5px dashed #94a3b8;
   border-radius: 8px;
-  background: #fafafa;
+  background: #ffffff;
   position: relative;
   touch-action: none;
 }
 
 #signatureCanvas {
   width: 100%;
-  height: 160px;
+  height: 180px;
   display: block;
   cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .canvas-toolbar {
@@ -1051,6 +1054,14 @@ body.mode-edit-all [contenteditable="true"]:hover {
   justify-content: space-between;
   align-items: center;
   margin-top: 0.6rem;
+}
+
+.pen-color-btn {
+  transition: transform 0.15s ease;
+}
+
+.pen-color-btn:hover {
+  transform: scale(1.15);
 }
 
 .type-sig-container input {
