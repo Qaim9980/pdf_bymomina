@@ -696,9 +696,11 @@ body {
 }
 
 .logo-svg {
-  width: 250px;
+  width: 280px;
   max-width: 100%;
   height: auto;
+  object-fit: contain;
+  display: block;
 }
 
 /* TYPOGRAPHY */
