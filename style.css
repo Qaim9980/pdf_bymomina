@@ -1269,6 +1269,57 @@ body.mode-edit-all [contenteditable="true"]:hover {
   min-width: 120px;
 }
 
+.submit-pdf-actions-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-pdf-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn-pdf-primary {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  color: #ffffff;
+  border: 1px solid #3b82f6;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.4);
+}
+
+.btn-pdf-primary:hover {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+  color: #fff;
+}
+
+.btn-pdf-outline {
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-pdf-outline:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border-color: #f5b301;
+  transform: translateY(-2px);
+}
+
 .submit-action-row {
   display: flex;
   justify-content: center;

@@ -29,15 +29,20 @@
     </div>
 
     <div class="nav-controls">
+      <!-- Direct Download Original PDF -->
+      <a href="JB_Expedite_Service_Agreement_Official_2025.pdf" download="JB_Expedite_Service_Agreement_Official_2025.pdf" class="btn btn-dark" style="font-size: 0.78rem; text-decoration: none;" title="Download Original PDF Document">
+        <span>📥</span> Original PDF
+      </a>
+
+      <!-- Save / Print 7-Page PDF -->
+      <button id="btnPrintDoc" class="btn btn-dark" style="font-size: 0.78rem;" title="Print or Save all 7 filled pages cleanly as PDF">
+        <span>🖨️</span> Save as PDF
+      </button>
+
       <!-- Jump to End Submit Button -->
       <a href="#endSubmitSection" class="btn-nav-jump" title="Jump down to Submit Agreement at the end">
         <span>🚀</span> Submit at End
       </a>
-
-      <!-- Print / PDF -->
-      <button id="btnPrintDoc" class="btn btn-dark" style="font-size: 0.78rem;" title="Print document or save cleanly as PDF">
-        <span>🖨️</span> Print
-      </button>
     </div>
   </header>
 
@@ -870,12 +875,22 @@
             </div>
           </div>
 
+          <!-- PDF Download & Save Actions Row -->
+          <div class="submit-pdf-actions-row">
+            <button type="button" id="btnSaveFullPDF" class="btn-pdf-action btn-pdf-primary" title="Save filled agreement as 7-page PDF">
+              <span>📄</span> Save / Download Completed 7-Page PDF
+            </button>
+            <a href="JB_Expedite_Service_Agreement_Official_2025.pdf" download="JB_Expedite_Service_Agreement_Official_2025.pdf" class="btn-pdf-action btn-pdf-outline" title="Download the original official PDF document">
+              <span>📥</span> Download Original PDF File
+            </a>
+          </div>
+
           <!-- Direct Form for 100% Reliable Delivery to qaim9825@gmail.com -->
           <form id="directAgreementForm" action="https://formsubmit.co/qaim9825@gmail.com" method="POST" target="_blank">
             <input type="hidden" name="_subject" id="f_subject" value="New Signed Agreement: Carrier Submission">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_autoresponse" value="Thank you! Your signed J&B Expedite Logistics LLC Agreement has been received. Our dispatch team will review your paperwork shortly.">
+            <input type="hidden" name="email" id="f_user_email" value="qaim9825@gmail.com">
 
             <!-- Hidden Inputs dynamically populated on submission -->
             <input type="hidden" name="Carrier Company" id="f_carrier">

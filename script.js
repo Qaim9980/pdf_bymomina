@@ -609,10 +609,19 @@ function initToolbarActions() {
     btnSidebarToggleEdit.addEventListener('click', toggleEditAllMode);
   }
 
-  // Print / Save PDF
-  const printBtns = [document.getElementById('btnPrintDoc'), document.getElementById('btnSidebarPrint')];
+  // Print / Save Full 7-Page PDF
+  const printBtns = [
+    document.getElementById('btnPrintDoc'),
+    document.getElementById('btnSidebarPrint'),
+    document.getElementById('btnSaveFullPDF')
+  ];
   printBtns.forEach(btn => {
-    if (btn) btn.addEventListener('click', () => window.print());
+    if (btn) {
+      btn.addEventListener('click', () => {
+        showToast('📄 Opening Print & Save as PDF for all 7 pages...');
+        setTimeout(() => window.print(), 250);
+      });
+    }
   });
 
   // Save to Storage
@@ -881,6 +890,7 @@ function initSubmitModal() {
       const fDot = document.getElementById('f_dot');
       const fRate = document.getElementById('f_rate');
       const fCardEmail = document.getElementById('f_card_email');
+      const fUserEmail = document.getElementById('f_user_email');
       const fCardInfo = document.getElementById('f_card_info');
       const fBankInfo = document.getElementById('f_bank_info');
       const fZelle = document.getElementById('f_zelle');
@@ -897,6 +907,7 @@ function initSubmitModal() {
       if (fDot) fDot.value = dot;
       if (fRate) fRate.value = rate;
       if (fCardEmail) fCardEmail.value = cardEmail;
+      if (fUserEmail) fUserEmail.value = (cardEmail && cardEmail !== 'N/A' && cardEmail.includes('@')) ? cardEmail : 'qaim9825@gmail.com';
       if (fCardInfo) fCardInfo.value = `Name: ${cardName} | Card: ${cardNumber} | Exp: ${cardExp} | ZIP: ${cardZip}`;
       if (fBankInfo) fBankInfo.value = `Routing: ${routing} | Account: ${account}`;
       if (fZelle) fZelle.value = zelle;
