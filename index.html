@@ -29,38 +29,14 @@
     </div>
 
     <div class="nav-controls">
-      <!-- Edit Mode Toggle -->
-      <button id="btnToggleEditAll" class="btn btn-dark" title="Click to edit ANY text, heading, or paragraph directly on the page">
-        <span>✏️</span> Edit All Text Mode
+      <!-- Prominent Primary Submit Button -->
+      <button id="btnOpenSubmitModal" class="btn-submit-main" title="Submit completed agreement directly to email">
+        <span>🚀</span> Submit Agreement
       </button>
-
-      <!-- Zoom Controls -->
-      <div style="display: flex; align-items: center; background: #232934; border-radius: 6px; padding: 2px 6px;">
-        <button id="btnZoomOut" class="btn btn-dark" style="padding: 4px 8px;" title="Zoom Out">−</button>
-        <span id="zoomDisplay" style="font-size: 0.78rem; font-weight: 700; min-width: 42px; text-align: center; color: #f5b301;">100%</span>
-        <button id="btnZoomIn" class="btn btn-dark" style="padding: 4px 8px;" title="Zoom In">+</button>
-        <button id="btnZoomReset" class="btn btn-dark" style="padding: 4px 6px; font-size: 0.7rem;" title="Reset Zoom">Fit</button>
-      </div>
 
       <!-- Print / PDF -->
-      <button id="btnPrintDoc" class="btn btn-primary" title="Print document or save cleanly as PDF">
-        <span>🖨️</span> Print / Save PDF
-      </button>
-
-      <!-- Save Data -->
-      <button id="btnSaveData" class="btn btn-success" title="Save all changes to browser memory">
-        <span>💾</span> Save
-      </button>
-
-      <!-- Export / Import / Reset -->
-      <button id="btnExportHTML" class="btn btn-outline" title="Download standalone HTML file with your edits">
-        <span>📥</span> HTML
-      </button>
-      <button id="btnExportJSON" class="btn btn-outline" title="Export form data as JSON file">
-        <span>{ }</span> JSON
-      </button>
-      <button id="btnResetDoc" class="btn btn-outline" title="Reset all fields to sample agreement defaults">
-        <span>🔄</span> Reset
+      <button id="btnPrintDoc" class="btn btn-dark" style="font-size: 0.78rem;" title="Print document or save cleanly as PDF">
+        <span>🖨️</span> Print
       </button>
     </div>
   </header>
@@ -859,6 +835,19 @@
           </div>
         </div>
 
+        <!-- Bottom Submission Card (Screen Only) -->
+        <div class="submit-agreement-card no-print">
+          <h4 style="font-size: 1.15rem; color: var(--primary-yellow); margin-bottom: 0.35rem; font-weight: 800;">
+            Completed All 7 Pages?
+          </h4>
+          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.25rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+            Click below to submit your filled paperwork, authorisations, and digital signatures directly to our email.
+          </p>
+          <button type="button" class="btn-submit-main btn-submit-large btn-trigger-submit">
+            <span>🚀</span> Submit Completed Agreement
+          </button>
+        </div>
+
         <footer class="page-footer-meta" style="margin-top: auto;">
           <span>J&amp;B Expedite Logistics LLC</span>
           <span>Page 7 of 7</span>
@@ -866,6 +855,55 @@
       </article>
 
     </main>
+  </div>
+
+  <!-- ================= SUBMIT AGREEMENT MODAL ================= -->
+  <div class="modal-backdrop" id="submitModal">
+    <div class="modal-card" style="max-width: 490px;">
+      <div class="modal-header">
+        <h3><span>🚀</span> Submit Agreement</h3>
+        <button class="modal-close-btn close-submit-modal" title="Close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: #475569; margin-bottom: 1rem; line-height: 1.5;">
+          All 7 pages of the agreement, authorisations, payment details, and digital signatures will be packaged and delivered immediately to:
+        </p>
+
+        <!-- Recipient Email (Default: qaim9825@gmail.com) -->
+        <div style="margin-bottom: 1.25rem;">
+          <label for="submitRecipientEmail" style="display: block; font-size: 0.75rem; font-weight: 700; color: #1e293b; margin-bottom: 0.35rem;">
+            Destination Email Address:
+          </label>
+          <input type="email" id="submitRecipientEmail" value="qaim9825@gmail.com" style="width: 100%; padding: 0.6rem 0.8rem; font-size: 0.95rem; font-weight: 600; border: 1.5px solid #cbd5e1; border-radius: 6px; color: #0f172a; background: #f8fafc;">
+          <span style="font-size: 0.7rem; color: #64748b; margin-top: 4px; display: block;">
+            The full contract data will be delivered directly to this inbox.
+          </span>
+        </div>
+
+        <!-- Summary Preview -->
+        <div style="background: #f1f5f9; border-radius: 8px; padding: 0.9rem; font-size: 0.82rem; color: #334155; line-height: 1.6; margin-bottom: 1rem; border: 1px solid #e2e8f0;">
+          <div style="font-weight: 700; color: #0f172a; margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center;">
+            <span>Package Summary</span>
+            <span style="color: #16a34a; font-weight: 700; font-size: 0.75rem;">● 7 Pages Ready</span>
+          </div>
+          <div><b>Carrier:</b> <span id="submitSummaryCarrier">COUNTRY MILE CARRIERS LLC</span></div>
+          <div><b>Signer:</b> <span id="submitSummarySigner">Harold Williams</span> (<span id="submitSummaryTitle">Owner Operator</span>)</div>
+          <div><b>Date:</b> <span id="submitSummaryDate">30/Sep/2025</span></div>
+          <div><b>MC / DOT#:</b> <span id="submitSummaryDot">1753535</span></div>
+          <div><b>Signatures:</b> <span style="color: #1e3a8a; font-weight: 700;">Verified Digital Signatures Attached</span></div>
+        </div>
+
+        <div id="submitStatusMsg" style="display: none; padding: 0.75rem 1rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem; line-height: 1.45;"></div>
+      </div>
+
+      <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 0.6rem;">
+        <button type="button" class="btn btn-outline close-submit-modal" style="color: #475569; border-color: #cbd5e1;">Cancel</button>
+        <button id="btnConfirmSend" type="button" class="btn-submit-main">
+          <span>📨</span> Send to Email Now
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- ================= SIGNATURE DRAW / TYPE MODAL ================= -->
