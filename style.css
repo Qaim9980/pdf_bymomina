@@ -1388,6 +1388,37 @@ body.mode-edit-all [contenteditable="true"]:hover {
 }
 
 /* ==========================================================================
+   VIEWING SUBMITTED AGREEMENT BANNER (WHEN OPENED FROM EMAIL LINK)
+   ========================================================================== */
+.viewing-submitted-banner {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  border-bottom: 2px solid #38bdf8;
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  position: sticky;
+  top: 0;
+  z-index: 2500;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.viewing-submitted-banner .banner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.viewing-submitted-banner .banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ==========================================================================
    CLIENT SUCCESS CONFIRMATION MODAL ("DOCUMENTS RECEIVED SUCCESSFULLY")
    ========================================================================== */
 .submission-success-overlay {

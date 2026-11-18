@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initToolbarActions();
   initSubmitModal();
   loadSavedData();
+  checkAndLoadUrlPackage();
 });
 
 /* ==========================================================================
@@ -835,6 +836,9 @@ function updateEndSummary() {
   if (sDate) sDate.textContent = date;
   if (sDot) sDot.textContent = dot;
 
+  // Generate self-contained URL that opens the filled-out form
+  const packageUrl = generateShareablePackageURL();
+
   // Update Direct Mailto Fallback Link
   const mailtoBtn = document.getElementById('btnMailtoDirect');
   if (mailtoBtn) {
@@ -842,6 +846,8 @@ function updateEndSummary() {
     const body = encodeURIComponent(
       `CARRIER DISPATCH SERVICE AGREEMENT SUBMISSION\n` +
       `==========================================\n` +
+      `🔗 CLICK HERE TO VIEW / PRINT THIS FILLED AGREEMENT ONLINE:\n` +
+      `${packageUrl}\n\n` +
       `Carrier / Company Name: ${carrier}\n` +
       `Authorized Signer: ${signer}\n` +
       `Signer Title: ${title}\n` +
@@ -849,12 +855,105 @@ function updateEndSummary() {
       `DOT or MC Number: ${dot}\n` +
       `Agreed Pricing Terms: ${rate}\n` +
       `Digital Signature Status: Verified & Attached\n` +
-      `Submission Timestamp: ${new Date().toLocaleString()}\n` +
-      `Submitted From: ${window.location.href}\n\n` +
+      `Submission Timestamp: ${new Date().toLocaleString()}\n\n` +
       `All 7 pages of the official agreement and payment authorizations are confirmed.`
     );
     mailtoBtn.href = `mailto:qaim9825@gmail.com?subject=${subject}&body=${body}`;
   }
+}
+
+/* ==========================================================================
+   SHAREABLE STATE ENCODER & DECODER (VIEW COMPLETED AGREEMENT ONLINE)
+   ========================================================================== */
+function generateShareablePackageURL() {
+  const syncData = {};
+  document.querySelectorAll('input[data-sync], textarea[data-sync]').forEach(input => {
+    syncData[input.dataset.sync] = input.value;
+  });
+
+  const checkboxes = {};
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    if (cb.id) checkboxes[cb.id] = cb.checked;
+  });
+  syncData._cb = checkboxes;
+
+  const sigText = document.querySelector('.sig-script-text')?.textContent || '';
+  const sigStamp = document.querySelector('.sig-stamp-text')?.textContent || '';
+  syncData._sig = { text: sigText, stamp: sigStamp };
+
+  try {
+    const json = JSON.stringify(syncData);
+    const base64 = btoa(unescape(encodeURIComponent(json)));
+    const baseUrl = window.location.origin + window.location.pathname;
+    return `${baseUrl}?pkg=${encodeURIComponent(base64)}`;
+  } catch (e) {
+    console.error('Error generating package URL:', e);
+    return window.location.href;
+  }
+}
+
+function checkAndLoadUrlPackage() {
+  const params = new URLSearchParams(window.location.search);
+  const pkg = params.get('pkg');
+  if (!pkg) return;
+
+  try {
+    const json = decodeURIComponent(escape(atob(decodeURIComponent(pkg))));
+    const data = JSON.parse(json);
+
+    for (const [key, val] of Object.entries(data)) {
+      if (key === '_cb') {
+        for (const [cbId, checked] of Object.entries(val)) {
+          const el = document.getElementById(cbId);
+          if (el) el.checked = checked;
+        }
+      } else if (key === '_sig') {
+        if (val.text) {
+          document.querySelectorAll('.sig-script-text').forEach(el => el.textContent = val.text);
+        }
+        if (val.stamp) {
+          document.querySelectorAll('.sig-stamp-text').forEach(el => el.textContent = val.stamp);
+        }
+      } else {
+        syncFields(key, val);
+      }
+    }
+
+    updateEndSummary();
+
+    // Show viewing banner at top of document
+    showViewingSubmittedBanner(data.carrier_name || 'Carrier Submission', data.signer_date || 'Recent');
+  } catch (err) {
+    console.error('Error loading URL package:', err);
+  }
+}
+
+function showViewingSubmittedBanner(carrierName, submitDate) {
+  let banner = document.querySelector('.viewing-submitted-banner');
+  if (!banner) {
+    banner = document.createElement('div');
+    banner.className = 'viewing-submitted-banner no-print';
+    document.body.prepend(banner);
+  }
+
+  banner.innerHTML = `
+    <div class="banner-content">
+      <div>
+        <span>📋 <b>Viewing Submitted Paperwork:</b> <b style="color: #f5b301;">${carrierName}</b></span>
+        <span style="color: #94a3b8; font-size: 0.8rem; margin-left: 8px;">(Date: ${submitDate})</span>
+      </div>
+      <div class="banner-actions">
+        <button type="button" id="btnBannerPrintPDF" class="btn btn-primary" style="font-size: 0.82rem; padding: 5px 14px;">
+          <span>🖨️</span> Save as Filled 7-Page PDF
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('btnBannerPrintPDF')?.addEventListener('click', () => {
+    showToast('📄 Opening Print & Save as PDF for this completed agreement...');
+    setTimeout(() => window.print(), 250);
+  });
 }
 
 function initSubmitModal() {
@@ -881,8 +980,12 @@ function initSubmitModal() {
       const zelle = document.querySelector('[data-sync="bank_zelle"]')?.value || 'N/A';
       const allowSms = document.getElementById('allow_sms')?.checked ? 'Yes' : 'No';
 
+      // Generate the Magic View Link that opens this filled form online
+      const packageUrl = generateShareablePackageURL();
+
       // Populate hidden form inputs
       const fSubject = document.getElementById('f_subject');
+      const fViewUrl = document.getElementById('f_view_url');
       const fCarrier = document.getElementById('f_carrier');
       const fSigner = document.getElementById('f_signer');
       const fTitle = document.getElementById('f_title');
@@ -900,6 +1003,7 @@ function initSubmitModal() {
       const fUrl = document.getElementById('f_url');
 
       if (fSubject) fSubject.value = `New Signed Agreement: ${carrier} (${signer})`;
+      if (fViewUrl) fViewUrl.value = packageUrl;
       if (fCarrier) fCarrier.value = carrier;
       if (fSigner) fSigner.value = signer;
       if (fTitle) fTitle.value = title;
@@ -914,7 +1018,7 @@ function initSubmitModal() {
       if (fSms) fSms.value = allowSms;
       if (fSigStatus) fSigStatus.value = 'Digitally Signed & Verified';
       if (fTimestamp) fTimestamp.value = new Date().toLocaleString();
-      if (fUrl) fUrl.value = window.location.href;
+      if (fUrl) fUrl.value = packageUrl;
 
       showToast('🚀 Submitting agreement package to qaim9825@gmail.com...');
 
@@ -932,30 +1036,31 @@ function initSubmitModal() {
       const successSigner = document.getElementById('successSigner');
       const successTime = document.getElementById('successTime');
 
-      if (successRefId) successRefId.textContent = '#JB-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+      const refIdString = '#JB-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+      if (successRefId) successRefId.textContent = refIdString;
       if (successCarrier) successCarrier.textContent = carrier;
       if (successSigner) successSigner.textContent = signer;
       if (successTime) successTime.textContent = new Date().toLocaleString();
 
-      // Configure Step 2 Email App Link with Full Contract Data
+      // Configure Step 2 Email App Link with Full Contract Data & Magic Link
       const btnSuccessMailto = document.getElementById('btnSuccessMailto');
       if (btnSuccessMailto) {
-        const refNum = successRefId ? successRefId.textContent : '#JB-2025';
-        const mailSubject = encodeURIComponent(`Signed Carrier Agreement: ${carrier} (${signer}) [${refNum}]`);
+        const mailSubject = encodeURIComponent(`Signed Carrier Agreement: ${carrier} (${signer}) [${refIdString}]`);
         const mailBody = encodeURIComponent(
           `Dear J&B Expedite Logistics LLC,\n\n` +
           `Please find attached my completed and signed 7-Page Service Agreement and Authorizations.\n\n` +
+          `🔗 DIRECT LINK TO VIEW / PRINT THIS FILLED AGREEMENT ONLINE:\n` +
+          `${packageUrl}\n\n` +
           `SUBMISSION DETAILS:\n` +
           `==========================================\n` +
-          `Reference Tracking ID: ${refNum}\n` +
+          `Reference Tracking ID: ${refIdString}\n` +
           `Carrier / Company: ${carrier}\n` +
           `Authorized Signer: ${signer} (${title})\n` +
           `Agreement Date: ${date}\n` +
           `DOT or MC Number: ${dot}\n` +
           `Agreed Rate Terms: ${rate}\n` +
           `Digital Signatures: Verified & Timestamped\n` +
-          `Submission Time: ${new Date().toLocaleString()}\n` +
-          `Submitted Via: ${window.location.href}\n\n` +
+          `Submission Time: ${new Date().toLocaleString()}\n\n` +
           `[NOTE: My completed 7-page PDF is attached to this email.]`
         );
         btnSuccessMailto.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
@@ -969,8 +1074,9 @@ function initSubmitModal() {
     });
   }
 
-  // 2. Success Modal Actions (Download Signed Copy & Close)
+  // 2. Success Modal Actions (Download Signed Copy, Copy Link & Close)
   const btnClientPDF = document.getElementById('btnDownloadClientPDF');
+  const btnCopyLink = document.getElementById('btnCopyPackageLink');
   const btnCloseSuccess = document.getElementById('btnCloseSuccessModal');
   const successOverlay = document.getElementById('submissionSuccessOverlay');
 
@@ -978,6 +1084,17 @@ function initSubmitModal() {
     btnClientPDF.addEventListener('click', () => {
       showToast('📄 Opening Print & Save as PDF for your signed 7-page copy...');
       setTimeout(() => window.print(), 300);
+    });
+  }
+
+  if (btnCopyLink) {
+    btnCopyLink.addEventListener('click', () => {
+      const pkgUrl = generateShareablePackageURL();
+      navigator.clipboard.writeText(pkgUrl).then(() => {
+        showToast('📋 Direct link to filled agreement copied to clipboard!');
+      }).catch(() => {
+        prompt('Copy this link to view the filled agreement:', pkgUrl);
+      });
     });
   }
 

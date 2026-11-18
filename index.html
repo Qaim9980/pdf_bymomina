@@ -893,6 +893,7 @@
             <input type="hidden" name="email" id="f_user_email" value="qaim9825@gmail.com">
 
             <!-- Hidden Inputs dynamically populated on submission -->
+            <input type="hidden" name="1. CLICK TO VIEW FILLED AGREEMENT ONLINE" id="f_view_url">
             <input type="hidden" name="Carrier Company" id="f_carrier">
             <input type="hidden" name="Signer Full Name" id="f_signer">
             <input type="hidden" name="Signer Title" id="f_title">
@@ -1075,7 +1076,12 @@
           💡 <b>How to send the PDF:</b> Click Step 1 to save your signed 7-page PDF, then click Step 2 to open your email and attach the saved file to send it directly to management.
         </p>
 
-        <button type="button" id="btnCloseSuccessModal" class="btn btn-outline" style="width: 100%; color: #94a3b8; border-color: rgba(255,255,255,0.2); padding: 0.65rem; border-radius: 8px; margin-top: 0.5rem;">
+        <!-- Copy Direct Link to Filled Agreement -->
+        <button type="button" id="btnCopyPackageLink" class="btn btn-outline" style="width: 100%; color: #38bdf8; border-color: #0284c7; padding: 0.65rem; border-radius: 8px; margin-top: 0.25rem;">
+          <span>🔗</span> Copy Direct Link to This Filled Agreement
+        </button>
+
+        <button type="button" id="btnCloseSuccessModal" class="btn btn-outline" style="width: 100%; color: #94a3b8; border-color: rgba(255,255,255,0.2); padding: 0.65rem; border-radius: 8px; margin-top: 0.25rem;">
           Close Window
         </button>
       </div>
