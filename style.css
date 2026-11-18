@@ -1143,6 +1143,199 @@ body.mode-edit-all [contenteditable="true"]:hover {
   border-radius: 10px;
 }
 
+.btn-nav-jump {
+  background: linear-gradient(135deg, #f5b301 0%, #d97706 100%);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 3px 10px rgba(245, 179, 1, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-nav-jump:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 14px rgba(245, 179, 1, 0.45);
+  color: #000;
+}
+
+/* ==========================================================================
+   DEDICATED END-OF-DOCUMENT SUBMISSION SECTION
+   ========================================================================== */
+.end-submission-container {
+  max-width: 8.5in;
+  margin: 3rem auto 4.5rem;
+  padding: 0 1rem;
+}
+
+.end-submission-card {
+  background: linear-gradient(145deg, #0b1120 0%, #0f172a 50%, #1e293b 100%);
+  border: 2px solid #f5b301;
+  border-radius: 16px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  padding: 2.75rem 2.25rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.end-submission-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #f5b301, #10b981, #f5b301);
+}
+
+.submit-step-badge {
+  background: #f5b301;
+  color: #0b1120;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 0.9rem;
+}
+
+.submit-card-header h2 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.submit-card-header p {
+  font-size: 0.92rem;
+  color: #94a3b8;
+  max-width: 620px;
+  margin: 0 auto 1.75rem;
+  line-height: 1.55;
+}
+
+.submit-summary-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  text-align: left;
+  margin-bottom: 2rem;
+}
+
+.summary-box-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.65rem;
+  margin-bottom: 0.9rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  font-size: 0.95rem;
+}
+
+.badge-status-ready {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(16, 185, 129, 0.35);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  color: #cbd5e1;
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.summary-label {
+  color: #94a3b8;
+  font-size: 0.82rem;
+  display: inline-block;
+  min-width: 120px;
+}
+
+.submit-action-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.btn-submit-hero {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border: none;
+  font-size: 1.12rem;
+  font-weight: 800;
+  padding: 1.15rem 2.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.45);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+  max-width: 580px;
+  text-decoration: none;
+}
+
+.btn-submit-hero:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 35px rgba(16, 185, 129, 0.6);
+}
+
+.submit-footer-guidance {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  font-size: 0.86rem;
+}
+
+.submit-dest-info {
+  color: #e2e8f0;
+}
+
+.submit-dest-info b {
+  color: #f5b301;
+  background: rgba(245, 179, 1, 0.12);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.submit-mailto-fallback {
+  color: #94a3b8;
+}
+
+.mailto-link {
+  color: #38bdf8;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.mailto-link:hover {
+  color: #7dd3fc;
+}
+
 .submit-agreement-card {
   margin-top: 2rem;
   padding: 1.5rem;
