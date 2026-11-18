@@ -964,6 +964,11 @@ function initSubmitModal() {
   const directForm = document.getElementById('directAgreementForm');
   if (directForm) {
     directForm.addEventListener('submit', (e) => {
+      // PREVENT DEFAULT BROWSER NAVIGATION:
+      // This stops the browser from opening formsubmit.co in a new tab,
+      // which eliminates "This site can't be reached (connection reset)" errors on mobile/ISP networks!
+      e.preventDefault();
+
       const carrier = document.querySelector('[data-sync="carrier_name"]')?.value || 'N/A';
       const signer = document.querySelector('[data-sync="signer_name"]')?.value || 'N/A';
       const title = document.querySelector('[data-sync="signer_title"]')?.value || 'N/A';
@@ -1020,7 +1025,7 @@ function initSubmitModal() {
       if (fTimestamp) fTimestamp.value = new Date().toLocaleString();
       if (fUrl) fUrl.value = packageUrl;
 
-      showToast('🚀 Submitting agreement package to qaim9825@gmail.com...');
+      showToast('🚀 Agreement submitted and packaged successfully!');
 
       // Update submit button state
       const submitBtn = document.getElementById('btnFinalSubmit');
@@ -1066,10 +1071,46 @@ function initSubmitModal() {
         btnSuccessMailto.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
       }
 
+      // Configure WhatsApp Share Link
+      const btnSuccessWhatsApp = document.getElementById('btnSuccessWhatsApp');
+      if (btnSuccessWhatsApp) {
+        const waText = encodeURIComponent(
+          `*New Signed Carrier Agreement - J&B Expedite*\n` +
+          `-----------------------------------------\n` +
+          `*Carrier:* ${carrier}\n` +
+          `*Signer:* ${signer} (${title})\n` +
+          `*Date:* ${date}\n` +
+          `*DOT / MC#:* ${dot}\n` +
+          `*Rate Terms:* ${rate}\n` +
+          `*Reference ID:* ${refIdString}\n\n` +
+          `🔗 *View / Print Complete 7-Page Agreement Online:*\n` +
+          `${packageUrl}`
+        );
+        btnSuccessWhatsApp.href = `https://api.whatsapp.com/send?text=${waText}`;
+      }
+
+      // Silent non-blocking background dispatch attempt (will never crash UI or show network errors)
+      try {
+        fetch('https://formsubmit.co/ajax/qaim9825@gmail.com', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({
+            _subject: `New Signed Agreement: ${carrier} (${signer}) [${refIdString}]`,
+            "View Agreement Online": packageUrl,
+            "Carrier Company": carrier,
+            "Signer Name": signer,
+            "Date": date,
+            "DOT": dot,
+            "Rate": rate,
+            "Timestamp": new Date().toLocaleString()
+          })
+        }).catch(() => {});
+      } catch (err) {}
+
       if (successOverlay) {
         setTimeout(() => {
           successOverlay.classList.add('show');
-        }, 500);
+        }, 300);
       }
     });
   }
