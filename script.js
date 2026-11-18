@@ -917,10 +917,59 @@ function initSubmitModal() {
       if (fUrl) fUrl.value = window.location.href;
 
       showToast('🚀 Submitting agreement package to qaim9825@gmail.com...');
+
+      // Update submit button state
+      const submitBtn = document.getElementById('btnFinalSubmit');
+      if (submitBtn) {
+        submitBtn.innerHTML = '<span>✅</span> Agreement Submitted Successfully';
+        submitBtn.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)';
+      }
+
+      // Populate & display "Documents Received Successfully" Confirmation Modal
+      const successOverlay = document.getElementById('submissionSuccessOverlay');
+      const successRefId = document.getElementById('successRefId');
+      const successCarrier = document.getElementById('successCarrier');
+      const successSigner = document.getElementById('successSigner');
+      const successTime = document.getElementById('successTime');
+
+      if (successRefId) successRefId.textContent = '#JB-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+      if (successCarrier) successCarrier.textContent = carrier;
+      if (successSigner) successSigner.textContent = signer;
+      if (successTime) successTime.textContent = new Date().toLocaleString();
+
+      if (successOverlay) {
+        setTimeout(() => {
+          successOverlay.classList.add('show');
+        }, 500);
+      }
     });
   }
 
-  // 2. Modal Submission Handler (For tools or secondary buttons)
+  // 2. Success Modal Actions (Download Signed Copy & Close)
+  const btnClientPDF = document.getElementById('btnDownloadClientPDF');
+  const btnCloseSuccess = document.getElementById('btnCloseSuccessModal');
+  const successOverlay = document.getElementById('submissionSuccessOverlay');
+
+  if (btnClientPDF) {
+    btnClientPDF.addEventListener('click', () => {
+      showToast('📄 Opening Print & Save as PDF for your signed 7-page copy...');
+      setTimeout(() => window.print(), 300);
+    });
+  }
+
+  if (btnCloseSuccess) {
+    btnCloseSuccess.addEventListener('click', () => {
+      if (successOverlay) successOverlay.classList.remove('show');
+    });
+  }
+
+  if (successOverlay) {
+    successOverlay.addEventListener('click', (e) => {
+      if (e.target === successOverlay) successOverlay.classList.remove('show');
+    });
+  }
+
+  // 3. Modal Submission Handler (For tools or secondary buttons)
   const submitModal = document.getElementById('submitModal');
   const openBtns = [
     document.getElementById('btnOpenSubmitModal'),

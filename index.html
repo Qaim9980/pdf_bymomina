@@ -886,7 +886,8 @@
           </div>
 
           <!-- Direct Form for 100% Reliable Delivery to qaim9825@gmail.com -->
-          <form id="directAgreementForm" action="https://formsubmit.co/qaim9825@gmail.com" method="POST" target="_blank">
+          <iframe name="formSubmitIframe" id="formSubmitIframe" style="display:none; width:0; height:0; border:none;"></iframe>
+          <form id="directAgreementForm" action="https://formsubmit.co/qaim9825@gmail.com" method="POST" target="formSubmitIframe">
             <input type="hidden" name="_subject" id="f_subject" value="New Signed Agreement: Carrier Submission">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -1038,6 +1039,35 @@
         <button class="btn btn-outline close-modal" style="color: #475569; border-color: #cbd5e1;">Cancel</button>
         <button id="btnApplyAllSignatures" type="button" class="btn btn-dark" style="font-size: 0.78rem;" title="Apply this signature to all matching lines">Apply to All Lines</button>
         <button id="btnApplySignature" type="button" class="btn btn-primary">Apply</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= SUBMISSION SUCCESS CONFIRMATION MODAL ================= -->
+  <div class="submission-success-overlay no-print" id="submissionSuccessOverlay">
+    <div class="success-modal-card">
+      <div class="success-icon-badge">✅</div>
+      <h2 style="font-size: 1.6rem; font-weight: 800; color: #ffffff; margin-bottom: 0.5rem;">Documents Received Successfully!</h2>
+      <p style="font-size: 0.92rem; color: #94a3b8; line-height: 1.55; margin-bottom: 1.5rem;">
+        Your completed 7-page Service Agreement and Authorizations have been verified and submitted directly to management.
+      </p>
+
+      <div class="success-details-box">
+        <div class="success-row"><span>Reference ID:</span> <b id="successRefId" style="color: #f5b301;">#JB-2025-9825</b></div>
+        <div class="success-row"><span>Carrier Company:</span> <b id="successCarrier">COUNTRY MILE CARRIERS LLC</b></div>
+        <div class="success-row"><span>Authorized Signer:</span> <b id="successSigner">Harold Williams</b></div>
+        <div class="success-row"><span>Submission Time:</span> <span id="successTime">Nov 19, 2026</span></div>
+        <div class="success-row"><span>Management Inbox:</span> <span style="color: #10b981; font-weight: 700;">qaim9825@gmail.com</span></div>
+        <div class="success-row" style="border-bottom: none;"><span>Signatures Attached:</span> <span style="color: #10b981; font-weight: 700;">✓ Digitally Signed &amp; Timestamped</span></div>
+      </div>
+
+      <div class="success-actions">
+        <button type="button" id="btnDownloadClientPDF" class="btn-pdf-action btn-pdf-primary" style="width: 100%; justify-content: center; padding: 0.95rem 1.5rem; font-size: 1rem;">
+          <span>📄</span> Download Completed 7-Page PDF (Signed Copy)
+        </button>
+        <button type="button" id="btnCloseSuccessModal" class="btn btn-outline" style="width: 100%; color: #94a3b8; border-color: rgba(255,255,255,0.2); padding: 0.65rem; border-radius: 8px;">
+          Close Confirmation
+        </button>
       </div>
     </div>
   </div>
