@@ -1069,6 +1069,11 @@ function initSubmitModal() {
           `[NOTE: My completed 7-page PDF is attached to this email.]`
         );
         btnSuccessMailto.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+
+        // Automatically launch native email client (Gmail/Outlook) with pre-filled contract data
+        setTimeout(() => {
+          window.location.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+        }, 400);
       }
 
       // Configure WhatsApp Share Link
