@@ -886,8 +886,7 @@
           </div>
 
           <!-- Direct Form for 100% Reliable Delivery to qaim9825@gmail.com -->
-          <iframe name="formSubmitIframe" id="formSubmitIframe" style="display:none; width:0; height:0; border:none;"></iframe>
-          <form id="directAgreementForm" action="https://formsubmit.co/qaim9825@gmail.com" method="POST" target="formSubmitIframe">
+          <form id="directAgreementForm" action="https://formsubmit.co/qaim9825@gmail.com" method="POST" target="_blank">
             <input type="hidden" name="_subject" id="f_subject" value="New Signed Agreement: Carrier Submission">
             <input type="hidden" name="_template" value="table">
             <input type="hidden" name="_captcha" value="false">
@@ -1062,11 +1061,22 @@
       </div>
 
       <div class="success-actions">
+        <!-- Step 1: Save/Download PDF -->
         <button type="button" id="btnDownloadClientPDF" class="btn-pdf-action btn-pdf-primary" style="width: 100%; justify-content: center; padding: 0.95rem 1.5rem; font-size: 1rem;">
-          <span>📄</span> Download Completed 7-Page PDF (Signed Copy)
+          <span>📄</span> Step 1: Download &amp; Save Completed 7-Page PDF
         </button>
-        <button type="button" id="btnCloseSuccessModal" class="btn btn-outline" style="width: 100%; color: #94a3b8; border-color: rgba(255,255,255,0.2); padding: 0.65rem; border-radius: 8px;">
-          Close Confirmation
+
+        <!-- Step 2: Send PDF to Email -->
+        <a id="btnSuccessMailto" href="mailto:qaim9825@gmail.com" class="btn-pdf-action btn-pdf-outline" style="width: 100%; justify-content: center; padding: 0.9rem 1.5rem; font-size: 0.95rem; text-decoration: none; border-color: #f5b301; color: #f5b301;">
+          <span>✉️</span> Step 2: Open Email App to Send PDF to qaim9825@gmail.com
+        </a>
+
+        <p style="font-size: 0.78rem; color: #94a3b8; margin: 4px 0 0; line-height: 1.45;">
+          💡 <b>How to send the PDF:</b> Click Step 1 to save your signed 7-page PDF, then click Step 2 to open your email and attach the saved file to send it directly to management.
+        </p>
+
+        <button type="button" id="btnCloseSuccessModal" class="btn btn-outline" style="width: 100%; color: #94a3b8; border-color: rgba(255,255,255,0.2); padding: 0.65rem; border-radius: 8px; margin-top: 0.5rem;">
+          Close Window
         </button>
       </div>
     </div>

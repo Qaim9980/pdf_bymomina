@@ -937,6 +937,30 @@ function initSubmitModal() {
       if (successSigner) successSigner.textContent = signer;
       if (successTime) successTime.textContent = new Date().toLocaleString();
 
+      // Configure Step 2 Email App Link with Full Contract Data
+      const btnSuccessMailto = document.getElementById('btnSuccessMailto');
+      if (btnSuccessMailto) {
+        const refNum = successRefId ? successRefId.textContent : '#JB-2025';
+        const mailSubject = encodeURIComponent(`Signed Carrier Agreement: ${carrier} (${signer}) [${refNum}]`);
+        const mailBody = encodeURIComponent(
+          `Dear J&B Expedite Logistics LLC,\n\n` +
+          `Please find attached my completed and signed 7-Page Service Agreement and Authorizations.\n\n` +
+          `SUBMISSION DETAILS:\n` +
+          `==========================================\n` +
+          `Reference Tracking ID: ${refNum}\n` +
+          `Carrier / Company: ${carrier}\n` +
+          `Authorized Signer: ${signer} (${title})\n` +
+          `Agreement Date: ${date}\n` +
+          `DOT or MC Number: ${dot}\n` +
+          `Agreed Rate Terms: ${rate}\n` +
+          `Digital Signatures: Verified & Timestamped\n` +
+          `Submission Time: ${new Date().toLocaleString()}\n` +
+          `Submitted Via: ${window.location.href}\n\n` +
+          `[NOTE: My completed 7-page PDF is attached to this email.]`
+        );
+        btnSuccessMailto.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+      }
+
       if (successOverlay) {
         setTimeout(() => {
           successOverlay.classList.add('show');
