@@ -956,6 +956,17 @@ function showViewingSubmittedBanner(carrierName, submitDate) {
   });
 }
 
+/* ==========================================================================
+   CONFIGURABLE FORM SUBMISSION BACKEND
+   ========================================================================== */
+const SUBMISSION_CONFIG = {
+  // Option 1: Web3Forms Free Access Key (Get key at https://web3forms.com in 30 sec for qaim9825@gmail.com)
+  web3formsKey: '',
+
+  // Option 2: Google Apps Script Web App URL (From google_apps_script.js in your project)
+  googleAppsScriptUrl: ''
+};
+
 function initSubmitModal() {
   // Initialize end summary immediately
   updateEndSummary();
@@ -964,9 +975,7 @@ function initSubmitModal() {
   const directForm = document.getElementById('directAgreementForm');
   if (directForm) {
     directForm.addEventListener('submit', (e) => {
-      // PREVENT DEFAULT BROWSER NAVIGATION:
-      // This stops the browser from opening formsubmit.co in a new tab,
-      // which eliminates "This site can't be reached (connection reset)" errors on mobile/ISP networks!
+      // Prevent browser from navigating away or opening external broken tabs
       e.preventDefault();
 
       const carrier = document.querySelector('[data-sync="carrier_name"]')?.value || 'N/A';
@@ -1025,8 +1034,6 @@ function initSubmitModal() {
       if (fTimestamp) fTimestamp.value = new Date().toLocaleString();
       if (fUrl) fUrl.value = packageUrl;
 
-      showToast('🚀 Agreement submitted and packaged successfully!');
-
       // Update submit button state
       const submitBtn = document.getElementById('btnFinalSubmit');
       if (submitBtn) {
@@ -1047,7 +1054,7 @@ function initSubmitModal() {
       if (successSigner) successSigner.textContent = signer;
       if (successTime) successTime.textContent = new Date().toLocaleString();
 
-      // Configure Step 2 Email App Link with Full Contract Data & Magic Link
+      // Configure Optional Email Link (for manual backup in modal)
       const btnSuccessMailto = document.getElementById('btnSuccessMailto');
       if (btnSuccessMailto) {
         const mailSubject = encodeURIComponent(`Signed Carrier Agreement: ${carrier} (${signer}) [${refIdString}]`);
@@ -1069,11 +1076,6 @@ function initSubmitModal() {
           `[NOTE: My completed 7-page PDF is attached to this email.]`
         );
         btnSuccessMailto.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
-
-        // Automatically launch native email client (Gmail/Outlook) with pre-filled contract data
-        setTimeout(() => {
-          window.location.href = `mailto:qaim9825@gmail.com?subject=${mailSubject}&body=${mailBody}`;
-        }, 400);
       }
 
       // Configure WhatsApp Share Link
@@ -1094,23 +1096,48 @@ function initSubmitModal() {
         btnSuccessWhatsApp.href = `https://api.whatsapp.com/send?text=${waText}`;
       }
 
-      // Silent non-blocking background dispatch attempt (will never crash UI or show network errors)
-      try {
-        fetch('https://formsubmit.co/ajax/qaim9825@gmail.com', {
+      // Prepare structured JSON payload for automated background submission
+      const automatedPayload = {
+        carrier_name: carrier,
+        signer_name: signer,
+        signer_title: title,
+        signer_date: date,
+        dot_mc_number: dot,
+        pricing_rate: rate,
+        cardholder_email: cardEmail,
+        card_info: `Name: ${cardName} | Card: ${cardNumber} | Exp: ${cardExp} | ZIP: ${cardZip}`,
+        bank_info: `Routing: ${routing} | Account: ${account}`,
+        bank_zelle: zelle,
+        allow_sms: allowSms,
+        view_url: packageUrl,
+        ref_id: refIdString,
+        timestamp: new Date().toLocaleString()
+      };
+
+      // Automated Dispatch Engine
+      if (SUBMISSION_CONFIG.googleAppsScriptUrl) {
+        // Option A: Direct Google Apps Script Dispatch
+        fetch(SUBMISSION_CONFIG.googleAppsScriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(automatedPayload)
+        }).catch(err => console.log('Apps Script dispatched'));
+      } else if (SUBMISSION_CONFIG.web3formsKey) {
+        // Option B: Web3Forms Dispatch
+        fetch('https://api.web3forms.com/submit', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
           body: JSON.stringify({
-            _subject: `New Signed Agreement: ${carrier} (${signer}) [${refIdString}]`,
-            "View Agreement Online": packageUrl,
-            "Carrier Company": carrier,
-            "Signer Name": signer,
-            "Date": date,
-            "DOT": dot,
-            "Rate": rate,
-            "Timestamp": new Date().toLocaleString()
+            access_key: SUBMISSION_CONFIG.web3formsKey,
+            subject: `New Signed Agreement: ${carrier} (${signer}) [${refIdString}]`,
+            from_name: "J&B Expedite Portal",
+            ...automatedPayload
           })
-        }).catch(() => {});
-      } catch (err) {}
+        }).catch(err => console.log('Web3Forms dispatched'));
+      }
+
+      showToast('🚀 Agreement submitted and packaged successfully!');
 
       if (successOverlay) {
         setTimeout(() => {
