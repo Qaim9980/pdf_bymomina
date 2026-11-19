@@ -789,6 +789,25 @@ ol.legal-list li {
   border-bottom: 2px solid var(--primary-yellow);
 }
 
+/* Guided Placeholder Styling - Faint, blurred/muted look for all inputs */
+::placeholder {
+  color: #94a3b8 !important;
+  opacity: 0.65 !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+}
+
+.input-inline::placeholder,
+.input-underline-block::placeholder,
+.sidebar-sync-input::placeholder {
+  color: #94a3b8;
+  opacity: 0.65;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
 .field-label {
   font-size: 8.5pt;
   color: #4b5563;
@@ -823,11 +842,28 @@ ol.legal-list li {
   align-items: flex-end;
   cursor: pointer;
   padding-bottom: 2px;
-  transition: background 0.15s;
+  transition: all 0.2s ease;
+  background: rgba(248, 250, 252, 0.4);
+  border-radius: 4px 4px 0 0;
 }
 
 .sig-box-wrapper:hover {
   background: rgba(245, 179, 1, 0.12);
+  border-bottom-color: var(--primary-yellow, #e6a800);
+}
+
+/* Guided prompt when signature is empty */
+.sig-box-wrapper .sig-script-text:empty::before {
+  content: "✍️ Click to Sign";
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 10pt;
+  font-weight: 500;
+  font-style: italic;
+  color: #94a3b8;
+  opacity: 0.75;
+  display: inline-block;
+  padding: 6px 8px;
+  user-select: none;
 }
 
 .signature-display {
@@ -1174,10 +1210,10 @@ body.mode-edit-all [contenteditable="true"]:hover {
 }
 
 .end-submission-card {
-  background: linear-gradient(145deg, #0b1120 0%, #0f172a 50%, #1e293b 100%);
-  border: 2px solid #f5b301;
+  background: #ffffff;
+  border: 2px solid #e2e8f0;
   border-radius: 16px;
-  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
   padding: 2.75rem 2.25rem;
   text-align: center;
   position: relative;
@@ -1190,41 +1226,42 @@ body.mode-edit-all [contenteditable="true"]:hover {
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #f5b301, #10b981, #f5b301);
+  height: 5px;
+  background: linear-gradient(90deg, #f5b301, #10b981, #3b82f6);
 }
 
 .submit-step-badge {
   background: #f5b301;
-  color: #0b1120;
-  font-size: 0.72rem;
+  color: #0f172a;
+  font-size: 0.75rem;
   font-weight: 900;
   letter-spacing: 1.5px;
-  padding: 5px 14px;
+  padding: 6px 16px;
   border-radius: 20px;
   display: inline-block;
   margin-bottom: 0.9rem;
+  box-shadow: 0 2px 8px rgba(245, 179, 1, 0.3);
 }
 
 .submit-card-header h2 {
-  font-size: 1.65rem;
+  font-size: 1.7rem;
   font-weight: 800;
-  color: #ffffff;
+  color: #0f172a;
   margin-bottom: 0.5rem;
   letter-spacing: -0.02em;
 }
 
 .submit-card-header p {
-  font-size: 0.92rem;
-  color: #94a3b8;
+  font-size: 0.95rem;
+  color: #475569;
   max-width: 620px;
   margin: 0 auto 1.75rem;
   line-height: 1.55;
 }
 
 .submit-summary-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
   text-align: left;
@@ -1235,17 +1272,17 @@ body.mode-edit-all [contenteditable="true"]:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1.5px solid #e2e8f0;
   padding-bottom: 0.65rem;
   margin-bottom: 0.9rem;
   font-weight: 700;
-  color: #f1f5f9;
+  color: #0f172a;
   font-size: 0.95rem;
 }
 
 .badge-status-ready {
-  background: rgba(16, 185, 129, 0.2);
-  color: #34d399;
+  background: rgba(16, 185, 129, 0.15);
+  color: #059669;
   font-size: 0.75rem;
   font-weight: 700;
   padding: 3px 10px;
@@ -1257,16 +1294,16 @@ body.mode-edit-all [contenteditable="true"]:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1rem;
-  color: #cbd5e1;
-  font-size: 0.88rem;
+  color: #1e293b;
+  font-size: 0.9rem;
   line-height: 1.8;
 }
 
 .summary-label {
-  color: #94a3b8;
-  font-size: 0.82rem;
+  color: #64748b;
+  font-size: 0.85rem;
   display: inline-block;
-  min-width: 120px;
+  min-width: 125px;
 }
 
 .submit-pdf-actions-row {
@@ -1296,27 +1333,27 @@ body.mode-edit-all [contenteditable="true"]:hover {
 .btn-pdf-primary {
   background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
   color: #ffffff;
-  border: 1px solid #3b82f6;
-  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.4);
+  border: 1px solid #1e3a8a;
+  box-shadow: 0 4px 14px rgba(30, 58, 138, 0.25);
 }
 
 .btn-pdf-primary:hover {
   background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
   color: #fff;
 }
 
 .btn-pdf-outline {
-  background: rgba(255, 255, 255, 0.06);
-  color: #cbd5e1;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #f8fafc;
+  color: #1e293b;
+  border: 1.5px solid #cbd5e1;
 }
 
 .btn-pdf-outline:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #ffffff;
-  border-color: #f5b301;
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
   transform: translateY(-2px);
 }
 
@@ -1339,7 +1376,7 @@ body.mode-edit-all [contenteditable="true"]:hover {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.45);
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.35);
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
   max-width: 580px;
@@ -1349,42 +1386,43 @@ body.mode-edit-all [contenteditable="true"]:hover {
 .btn-submit-hero:hover {
   background: linear-gradient(135deg, #059669 0%, #047857 100%);
   transform: translateY(-2px);
-  box-shadow: 0 14px 35px rgba(16, 185, 129, 0.6);
+  box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
 }
 
 .submit-footer-guidance {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1.5px solid #e2e8f0;
   padding-top: 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 0.6rem;
-  font-size: 0.86rem;
+  font-size: 0.88rem;
 }
 
 .submit-dest-info {
-  color: #e2e8f0;
+  color: #334155;
 }
 
 .submit-dest-info b {
-  color: #f5b301;
-  background: rgba(245, 179, 1, 0.12);
-  padding: 2px 8px;
-  border-radius: 4px;
+  color: #0f172a;
+  background: #fef3c7;
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid #fde68a;
 }
 
 .submit-mailto-fallback {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .mailto-link {
-  color: #38bdf8;
+  color: #2563eb;
   text-decoration: underline;
   font-weight: 600;
   transition: color 0.15s ease;
 }
 
 .mailto-link:hover {
-  color: #7dd3fc;
+  color: #1d4ed8;
 }
 
 /* ==========================================================================
@@ -1443,16 +1481,17 @@ body.mode-edit-all [contenteditable="true"]:hover {
 }
 
 .success-modal-card {
-  background: linear-gradient(145deg, #0f172a 0%, #1e293b 100%);
+  background: #ffffff;
   border: 2px solid #10b981;
   border-radius: 20px;
   max-width: 540px;
   width: 100%;
   padding: 2.5rem 2rem;
   text-align: center;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25), 0 0 35px rgba(16, 185, 129, 0.15);
   transform: translateY(20px) scale(0.96);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #0f172a;
 }
 
 .submission-success-overlay.show .success-modal-card {
@@ -1470,12 +1509,20 @@ body.mode-edit-all [contenteditable="true"]:hover {
   align-items: center;
   justify-content: center;
   font-size: 2.2rem;
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 25px rgba(16, 185, 129, 0.2);
+}
+
+.success-modal-card h2 {
+  color: #0f172a !important;
+}
+
+.success-modal-card p {
+  color: #475569 !important;
 }
 
 .success-details-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
   border-radius: 12px;
   padding: 1.25rem 1.4rem;
   text-align: left;
@@ -1486,14 +1533,14 @@ body.mode-edit-all [contenteditable="true"]:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #e2e8f0;
   font-size: 0.88rem;
-  color: #cbd5e1;
+  color: #0f172a;
 }
 
 .success-row span {
-  color: #94a3b8;
+  color: #64748b;
 }
 
 .success-actions {
@@ -1668,6 +1715,73 @@ body.mode-edit-all [contenteditable="true"]:hover {
   .buyer-seller-block {
     width: 100% !important;
   }
+
+  /* End Submission Card Mobile Fit */
+  .end-submission-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 0.5rem !important;
+    margin: 2rem auto !important;
+    box-sizing: border-box !important;
+  }
+
+  .end-submission-card {
+    padding: 1.75rem 1rem !important;
+    border-radius: 12px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .submit-card-header h2 {
+    font-size: 1.35rem !important;
+  }
+
+  .submit-card-header p {
+    font-size: 0.88rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .submit-summary-box {
+    padding: 1rem 0.85rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.6rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .summary-label {
+    min-width: 110px !important;
+  }
+
+  .submit-pdf-actions-row {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.65rem !important;
+  }
+
+  .btn-pdf-action {
+    width: 100% !important;
+    justify-content: center !important;
+    font-size: 0.85rem !important;
+    padding: 0.75rem 1rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .btn-submit-hero {
+    width: 100% !important;
+    font-size: 0.96rem !important;
+    padding: 1rem 0.85rem !important;
+    box-sizing: border-box !important;
+    line-height: 1.35 !important;
+    text-align: center !important;
+  }
+
+  .submit-footer-guidance {
+    word-break: break-word !important;
+  }
 }
 
 @media screen and (max-width: 640px) {
@@ -1724,6 +1838,30 @@ body.mode-edit-all [contenteditable="true"]:hover {
     gap: 0.25rem;
     text-align: center;
   }
+
+  .input-inline {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .input-inline[data-sync="carrier_name"],
+  .input-inline[data-sync="bank_zelle"],
+  .input-inline[data-sync="bank_customer_name"] {
+    width: 100% !important;
+    margin: 4px 0 !important;
+  }
+
+  .sig-box-wrapper {
+    min-height: 48px !important;
+    width: 100% !important;
+  }
+
+  .success-modal-card {
+    padding: 1.5rem 1rem !important;
+    width: 95vw !important;
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+  }
 }
 
 /* PRINT MEDIA QUERIES */
@@ -1742,6 +1880,7 @@ body.mode-edit-all [contenteditable="true"]:hover {
   .modal-backdrop,
   .toast-msg,
   .sig-hint-overlay,
+  .sig-box-wrapper .sig-script-text:empty::before,
   .btn,
   .no-print {
     display: none !important;

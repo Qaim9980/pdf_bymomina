@@ -1,5 +1,5 @@
 /**
- * J&B Expedite Logistics LLC - Interactive Agreement & Form Manager
+ * Asharaiz Logistics LLC - Interactive Agreement & Form Manager
  * Supports: 3-Bars Hamburger Off-Canvas Drawer with 3 Slides (Pages, Sync, Tools),
  * Live Edit Mode (contenteditable), Auto-Sync, Signature Drawing & Typing,
  * LocalStorage Auto-Save, Clean PDF Printing, and JSON/HTML Export.
@@ -15,34 +15,34 @@ const appState = {
   activeSidebarSlide: 'slidePages'
 };
 
-// Default PDF Data
+// Default PDF Data (clean blanks with guided hints)
 const defaultData = {
-  carrier_name: 'COUNTRY MILE CARRIERS LLC',
-  agreement_day: '30th',
-  agreement_month_year: 'Sep, 2025',
-  pricing_rate: '10% of weekly gross, Made by J&B Expedite',
-  dot_mc_number: '1753535',
-  signer_name: 'Harold Williams',
-  signer_title: 'Owner Operator',
-  signer_date: '30/Sep/2025',
-  signer_stamp: 'Harold Williams (Sep 30, 2025 11:10:19 CDT)',
-  executive_name: 'Henry Lewis',
-  executive_title: 'Business Development Executive',
-  executive_date: '30/Sep/2025',
-  executive_stamp: 'Henry Lewis (Sep 30, 2025 22:06:15 GMT+5)',
-  company_email: 'JnBexpedite@gmail.com',
-  cardholder_email: 'bubbawilliams@icloud.com',
-  product_service: 'Dispatch Service Fee',
-  card_type_other: 'N/A',
-  card_name: 'N/A',
-  card_number: 'N/A',
-  card_exp: 'N/A',
-  card_zip: 'N/A',
-  card_cvv: 'N/A',
-  bank_routing: 'N/A',
-  bank_account: 'N/A',
-  bank_zelle: 'N/A',
-  bank_customer_name: 'N/A'
+  carrier_name: '',
+  agreement_day: '',
+  agreement_month_year: '',
+  pricing_rate: '',
+  dot_mc_number: '',
+  signer_name: '',
+  signer_title: '',
+  signer_date: '',
+  signer_stamp: '',
+  executive_name: '',
+  executive_title: '',
+  executive_date: '',
+  executive_stamp: '',
+  company_email: 'qaim9825@gmail.com',
+  cardholder_email: '',
+  product_service: '',
+  card_type_other: '',
+  card_name: '',
+  card_number: '',
+  card_exp: '',
+  card_zip: '',
+  card_cvv: '',
+  bank_routing: '',
+  bank_account: '',
+  bank_zelle: '',
+  bank_customer_name: ''
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -385,11 +385,11 @@ function openSignatureModal() {
 
   // Pre-fill type input with active target's associated signer name
   const target = appState.activeSigTarget;
-  let signerName = 'Harold Williams';
+  let signerName = '';
   if (target && target.dataset.signerSync) {
     const syncElem = document.querySelector(`[data-sync="${target.dataset.signerSync}"]`);
     if (syncElem && syncElem.value) {
-      signerName = syncElem.value;
+      signerName = syncElem.value.trim();
     }
   }
 
@@ -397,7 +397,7 @@ function openSignatureModal() {
   if (typeInput) {
     typeInput.value = signerName;
     document.querySelectorAll('.font-sample-text').forEach(sample => {
-      sample.textContent = signerName;
+      sample.textContent = signerName || 'Your Signature';
     });
   }
 
@@ -556,7 +556,12 @@ function applySignature(applyToAll = false) {
     `;
   } else {
     const typeInput = document.getElementById('typeSigInput');
-    const name = (typeInput ? typeInput.value.trim() : '') || 'Harold Williams';
+    const name = (typeInput ? typeInput.value.trim() : '') || document.querySelector('[data-sync="signer_name"]')?.value?.trim();
+    if (!name) {
+      showToast('⚠️ Please type your name to generate your digital signature.');
+      if (typeInput) typeInput.focus();
+      return;
+    }
     sigHTML = `
       <div class="sig-script-text" style="font-family: '${appState.selectedFont}', cursive;">${name}</div>
       <span class="sig-stamp-text">${name} (${timestamp})</span>
@@ -641,8 +646,8 @@ function initToolbarActions() {
   resetBtns.forEach(btn => {
     if (btn) {
       btn.addEventListener('click', () => {
-        if (confirm('Reset document to sample pre-filled values from the original agreement?')) {
-          localStorage.removeItem('jb_expedite_agreement_data');
+        if (confirm('Clear all fields and reset document to a fresh blank agreement?')) {
+          localStorage.removeItem('asharaiz_logistics_agreement_data');
           location.reload();
         }
       });
@@ -721,7 +726,7 @@ function collectDocumentData() {
 
 function autoSaveToStorage() {
   const data = collectDocumentData();
-  localStorage.setItem('jb_expedite_agreement_data', JSON.stringify(data));
+  localStorage.setItem('asharaiz_logistics_agreement_data', JSON.stringify(data));
 }
 
 function saveAllData() {
@@ -729,11 +734,17 @@ function saveAllData() {
 }
 
 function loadSavedData() {
-  const saved = localStorage.getItem('jb_expedite_agreement_data');
+  const saved = localStorage.getItem('asharaiz_logistics_agreement_data');
   if (!saved) return;
 
   try {
     const data = JSON.parse(saved);
+    // Ignore and clear old legacy test/sample data so form starts completely blank
+    if (data.carrier_name === 'COUNTRY MILE CARRIERS LLC' || data.signer_name === 'Harold Williams') {
+      localStorage.removeItem('asharaiz_logistics_agreement_data');
+      return;
+    }
+
     for (const [key, val] of Object.entries(data)) {
       if (key.startsWith('checkbox_')) {
         const id = key.replace('checkbox_', '');
@@ -773,7 +784,7 @@ function exportDataJSON() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `JB_Expedite_Agreement_${new Date().toISOString().slice(0,10)}.json`;
+  a.download = `Asharaiz_Logistics_Agreement_${new Date().toISOString().slice(0,10)}.json`;
   a.click();
   URL.revokeObjectURL(url);
   showToast('📄 Agreement data exported as JSON!');
@@ -794,7 +805,7 @@ function exportCompleteHTML() {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `JB_Expedite_Agreement_Edited_${new Date().toISOString().slice(0,10)}.html`;
+  a.download = `Asharaiz_Logistics_Agreement_Edited_${new Date().toISOString().slice(0,10)}.html`;
   a.click();
   URL.revokeObjectURL(url);
   showToast('💾 Document exported as standalone HTML file!');
@@ -804,12 +815,17 @@ function exportCompleteHTML() {
    LIVE CONTRACT SUMMARY & DEDICATED END-OF-DOCUMENT SUBMISSION
    ========================================================================== */
 function updateEndSummary() {
-  const carrier = document.querySelector('[data-sync="carrier_name"]')?.value || 'COUNTRY MILE CARRIERS LLC';
-  const signer = document.querySelector('[data-sync="signer_name"]')?.value || 'Harold Williams';
-  const title = document.querySelector('[data-sync="signer_title"]')?.value || 'Owner Operator';
-  const date = document.querySelector('[data-sync="signer_date"]')?.value || '30/Sep/2025';
-  const dot = document.querySelector('[data-sync="dot_mc_number"]')?.value || '1753535';
-  const rate = document.querySelector('[data-sync="pricing_rate"]')?.value || '5%';
+  const carrier = document.querySelector('[data-sync="carrier_name"]')?.value?.trim() || '—';
+  const signer = document.querySelector('[data-sync="signer_name"]')?.value?.trim() || '—';
+  const title = document.querySelector('[data-sync="signer_title"]')?.value?.trim() || '—';
+  const date = document.querySelector('[data-sync="signer_date"]')?.value?.trim() || '—';
+  const dot = document.querySelector('[data-sync="dot_mc_number"]')?.value?.trim() || '—';
+  const rate = document.querySelector('[data-sync="pricing_rate"]')?.value?.trim() || '—';
+
+  // Check if user has signed
+  const firstSig = document.querySelector('.sig-script-text')?.textContent?.trim();
+  const hasCanvasSig = document.querySelector('.sig-box-wrapper img.sig-canvas-img');
+  const isSigned = !!(firstSig || hasCanvasSig);
 
   // Update summary preview at end of document
   const endCarrier = document.getElementById('endSummaryCarrier');
@@ -817,12 +833,17 @@ function updateEndSummary() {
   const endTitle = document.getElementById('endSummaryTitle');
   const endDate = document.getElementById('endSummaryDate');
   const endDot = document.getElementById('endSummaryDot');
+  const endSigStatus = document.getElementById('endSummarySigStatus');
 
   if (endCarrier) endCarrier.textContent = carrier;
   if (endSigner) endSigner.textContent = signer;
   if (endTitle) endTitle.textContent = title;
   if (endDate) endDate.textContent = date;
   if (endDot) endDot.textContent = dot;
+  if (endSigStatus) {
+    endSigStatus.textContent = isSigned ? '✓ Digitally Signed & Attached' : 'Pending Signature';
+    endSigStatus.style.color = isSigned ? '#10b981' : '#64748b';
+  }
 
   // Also update modal summary if opened
   const sCarrier = document.getElementById('submitSummaryCarrier');
@@ -830,11 +851,16 @@ function updateEndSummary() {
   const sTitle = document.getElementById('submitSummaryTitle');
   const sDate = document.getElementById('submitSummaryDate');
   const sDot = document.getElementById('submitSummaryDot');
+  const sSigStatus = document.getElementById('submitSummarySigStatus');
   if (sCarrier) sCarrier.textContent = carrier;
   if (sSigner) sSigner.textContent = signer;
   if (sTitle) sTitle.textContent = title;
   if (sDate) sDate.textContent = date;
   if (sDot) sDot.textContent = dot;
+  if (sSigStatus) {
+    sSigStatus.textContent = isSigned ? '✓ Digitally Signed & Attached' : 'Pending Signature';
+    sSigStatus.style.color = isSigned ? '#10b981' : '#64748b';
+  }
 
   // Generate self-contained URL that opens the filled-out form
   const packageUrl = generateShareablePackageURL();
@@ -1059,7 +1085,7 @@ function initSubmitModal() {
       if (btnSuccessMailto) {
         const mailSubject = encodeURIComponent(`Signed Carrier Agreement: ${carrier} (${signer}) [${refIdString}]`);
         const mailBody = encodeURIComponent(
-          `Dear J&B Expedite Logistics LLC,\n\n` +
+          `Dear Asharaiz Logistics LLC,\n\n` +
           `Please find attached my completed and signed 7-Page Service Agreement and Authorizations.\n\n` +
           `🔗 DIRECT LINK TO VIEW / PRINT THIS FILLED AGREEMENT ONLINE:\n` +
           `${packageUrl}\n\n` +
@@ -1082,7 +1108,7 @@ function initSubmitModal() {
       const btnSuccessWhatsApp = document.getElementById('btnSuccessWhatsApp');
       if (btnSuccessWhatsApp) {
         const waText = encodeURIComponent(
-          `*New Signed Carrier Agreement - J&B Expedite*\n` +
+          `*New Signed Carrier Agreement - Asharaiz Logistics*\n` +
           `-----------------------------------------\n` +
           `*Carrier:* ${carrier}\n` +
           `*Signer:* ${signer} (${title})\n` +
@@ -1135,7 +1161,7 @@ function initSubmitModal() {
           body: JSON.stringify({
             access_key: SUBMISSION_CONFIG.web3formsKey,
             subject: `New Signed Agreement: ${carrier} (${signer}) [${refIdString}]`,
-            from_name: "J&B Expedite Portal",
+            from_name: "Asharaiz Logistics Portal",
             ...automatedPayload
           })
         }).catch(err => console.log('Web3Forms dispatched'));

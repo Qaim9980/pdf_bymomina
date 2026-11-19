@@ -1,6 +1,6 @@
-# J&B Expedite Logistics LLC - Service Agreement & Forms (Interactive Web App)
+# Asharaiz Logistics LLC - Service Agreement & Forms (Interactive Web App)
 
-A complete, pixel-accurate, multi-page HTML conversion of the **J&B Expedite Logistics Carrier Dispatch Non-Binding Service Agreement & Authorization Forms** (7 Pages). 
+A complete, pixel-accurate, multi-page HTML conversion of the **Asharaiz Logistics Carrier Dispatch Non-Binding Service Agreement & Authorization Forms** (7 Pages). 
 
 Optimized for **GitHub Pages**, mobile & desktop browsers, clean **PDF export / printing**, and **100% full live editing**.
 
@@ -9,7 +9,7 @@ Optimized for **GitHub Pages**, mobile & desktop browsers, clean **PDF export / 
 ## 🌟 Key Features
 
 1. **Complete 7-Page Agreement**:
-   - **Page 1**: Welcome & Cover Page with vector J&B Expedite Logistics logo & contact information.
+   - **Page 1**: Welcome & Cover Page with official Asharaiz Logistics logo & contact information.
    - **Page 2**: Non-Binding Agreement: Recitals (1), Pricing (2), Effective Date (3), Statement of Work (4), Consideration (5).
    - **Page 3**: Additional Provisions (6), Disclaimer (7), Governing Law (8).
    - **Page 4**: Jurisdictions & Venue (9), Dual-party Signatures & Execution block.
